@@ -38,7 +38,6 @@ class EventModel extends Equatable {
 /// Types of church events
 enum EventType {
   seminar,
-  worship,
   youthGroup,
   bibleStudy,
   prayer,
@@ -51,8 +50,6 @@ extension EventTypeExtension on EventType {
     switch (this) {
       case EventType.seminar:
         return 'Семинар';
-      case EventType.worship:
-        return 'Мөргөл';
       case EventType.youthGroup:
         return 'Залуучууд';
       case EventType.bibleStudy:
@@ -70,8 +67,6 @@ extension EventTypeExtension on EventType {
     switch (this) {
       case EventType.seminar:
         return '📚';
-      case EventType.worship:
-        return '🙏';
       case EventType.youthGroup:
         return '👥';
       case EventType.bibleStudy:

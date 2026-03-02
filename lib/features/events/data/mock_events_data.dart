@@ -76,11 +76,11 @@ abstract final class MockEventsData {
   static List<EventModel> get pastEvents => [
         EventModel(
           id: 'p1',
-          title: 'Шинэ жилийн мөргөл',
-          description: 'Шинэ жилийн анхны мөргөл',
+          title: 'Шинэ жилийн баяр',
+          description: 'Шинэ жилийн онцгой арга хэмжээ',
           dateTime: DateTime.now().subtract(const Duration(days: 30)),
           location: 'Их танхим',
-          type: EventType.worship,
+          type: EventType.special,
           isUpcoming: false,
         ),
         EventModel(

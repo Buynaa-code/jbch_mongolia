@@ -179,8 +179,6 @@ class EventCard extends StatelessWidget {
     switch (type) {
       case EventType.seminar:
         return AppColors.primary;
-      case EventType.worship:
-        return AppColors.accent;
       case EventType.youthGroup:
         return AppColors.secondary;
       case EventType.bibleStudy:

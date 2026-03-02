@@ -7,10 +7,12 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/library/presentation/pages/library_page.dart';
 import '../../features/library/presentation/pages/song_player_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../shared/widgets/main_scaffold.dart';
 
 /// Application route paths
 abstract final class AppRoutes {
+  static const String splash = '/splash';
   static const String home = '/';
   static const String events = '/events';
   static const String eventDetail = '/events/:id';
@@ -37,9 +39,17 @@ final class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.splash,
     debugLogDiagnostics: true,
     routes: [
+      // Splash screen route
+      GoRoute(
+        path: AppRoutes.splash,
+        name: 'splash',
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child: SplashPage(),
+        ),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainScaffold(navigationShell: navigationShell);

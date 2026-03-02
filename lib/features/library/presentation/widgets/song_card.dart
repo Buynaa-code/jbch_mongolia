@@ -176,8 +176,6 @@ class SongCard extends StatelessWidget {
 
   Color _getCategoryColor(SongCategory category) {
     switch (category) {
-      case SongCategory.worship:
-        return AppColors.primary;
       case SongCategory.praise:
         return AppColors.accent;
       case SongCategory.hymn:

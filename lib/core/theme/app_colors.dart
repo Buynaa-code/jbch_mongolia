@@ -1,45 +1,45 @@
 import 'package:flutter/material.dart';
 
-/// Application color palette with warm earth tones
-/// Designed for a spiritual, welcoming church app aesthetic
+/// Application color palette based on app icon
+/// Deep blue globe with white dove - peace and global mission theme
 abstract final class AppColors {
-  // Primary - Deep Brown (warm, grounded)
-  static const Color primary = Color(0xFF5D4037);
-  static const Color primaryLight = Color(0xFF8B6B61);
-  static const Color primaryDark = Color(0xFF321911);
+  // Primary - Deep Navy Blue (from globe)
+  static const Color primary = Color(0xFF0D47A1);
+  static const Color primaryLight = Color(0xFF5472D3);
+  static const Color primaryDark = Color(0xFF002171);
 
-  // Secondary - Sage Green (nature, growth)
-  static const Color secondary = Color(0xFF7CB342);
-  static const Color secondaryLight = Color(0xFFAEE571);
-  static const Color secondaryDark = Color(0xFF4B830D);
+  // Secondary - Sky Blue (lighter globe gradient)
+  static const Color secondary = Color(0xFF42A5F5);
+  static const Color secondaryLight = Color(0xFF80D6FF);
+  static const Color secondaryDark = Color(0xFF0077C2);
 
-  // Tertiary - Warm Cream (soft, welcoming)
-  static const Color tertiary = Color(0xFFF5E6D3);
-  static const Color tertiaryDark = Color(0xFFE8D5BE);
+  // Tertiary - Mint/Cyan (background gradient)
+  static const Color tertiary = Color(0xFFE0F7FA);
+  static const Color tertiaryDark = Color(0xFFB2EBF2);
 
-  // Accent - Soft Gold (highlights)
-  static const Color accent = Color(0xFFD4A574);
-  static const Color accentLight = Color(0xFFE8C9A8);
+  // Accent - Teal (highlight)
+  static const Color accent = Color(0xFF26A69A);
+  static const Color accentLight = Color(0xFF80CBC4);
 
   // Surfaces - Light Mode
-  static const Color surfaceLight = Color(0xFFFFFBF5);
-  static const Color surfaceContainerLight = Color(0xFFF5EFE7);
-  static const Color surfaceContainerHighLight = Color(0xFFEDE5DA);
-  static const Color backgroundLight = Color(0xFFFFFDF9);
+  static const Color surfaceLight = Color(0xFFF5FCFF);
+  static const Color surfaceContainerLight = Color(0xFFE8F4F8);
+  static const Color surfaceContainerHighLight = Color(0xFFDCEEF5);
+  static const Color backgroundLight = Color(0xFFFAFDFF);
 
   // Surfaces - Dark Mode
-  static const Color surfaceDark = Color(0xFF2D2520);
-  static const Color surfaceContainerDark = Color(0xFF3D332C);
-  static const Color surfaceContainerHighDark = Color(0xFF4D4138);
-  static const Color backgroundDark = Color(0xFF1A1512);
+  static const Color surfaceDark = Color(0xFF0A1929);
+  static const Color surfaceContainerDark = Color(0xFF132F4C);
+  static const Color surfaceContainerHighDark = Color(0xFF1E4976);
+  static const Color backgroundDark = Color(0xFF001E3C);
 
   // Text Colors - Light Mode
-  static const Color onSurfaceLight = Color(0xFF1D1B16);
-  static const Color onSurfaceVariantLight = Color(0xFF4F4539);
+  static const Color onSurfaceLight = Color(0xFF1A237E);
+  static const Color onSurfaceVariantLight = Color(0xFF455A64);
 
   // Text Colors - Dark Mode
-  static const Color onSurfaceDark = Color(0xFFF0E6DC);
-  static const Color onSurfaceVariantDark = Color(0xFFD5C8BA);
+  static const Color onSurfaceDark = Color(0xFFE3F2FD);
+  static const Color onSurfaceVariantDark = Color(0xFFB0BEC5);
 
   // On Primary/Secondary
   static const Color onPrimary = Color(0xFFFFFFFF);
@@ -55,12 +55,12 @@ abstract final class AppColors {
   static const Color successLight = Color(0xFFE8F5E9);
 
   // Outline Colors
-  static const Color outlineLight = Color(0xFF847468);
-  static const Color outlineDark = Color(0xFF9E8E82);
+  static const Color outlineLight = Color(0xFF78909C);
+  static const Color outlineDark = Color(0xFF90A4AE);
 
   // Divider Colors
-  static const Color dividerLight = Color(0xFFE0D6CC);
-  static const Color dividerDark = Color(0xFF4A403A);
+  static const Color dividerLight = Color(0xFFB0BEC5);
+  static const Color dividerDark = Color(0xFF37474F);
 
   // Shadow Colors
   static const Color shadowLight = Color(0x1A000000);

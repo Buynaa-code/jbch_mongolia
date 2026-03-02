@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Represents a worship song
+/// Represents a song
 class SongModel extends Equatable {
   final String id;
   final String title;
@@ -69,9 +69,8 @@ class SongModel extends Equatable {
       ];
 }
 
-/// Categories of worship songs
+/// Categories of songs
 enum SongCategory {
-  worship,
   praise,
   hymn,
   contemporary,
@@ -81,8 +80,6 @@ enum SongCategory {
 extension SongCategoryExtension on SongCategory {
   String get displayName {
     switch (this) {
-      case SongCategory.worship:
-        return 'Мөргөлийн дуу';
       case SongCategory.praise:
         return 'Магтаалын дуу';
       case SongCategory.hymn:

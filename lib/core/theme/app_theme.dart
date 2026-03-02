@@ -5,7 +5,7 @@ import 'app_colors.dart';
 import 'app_text_styles.dart';
 
 /// Application theme configuration with Material 3 support
-/// Provides both light and dark themes with warm earth tones
+/// Provides both light and dark themes with blue globe brand colors
 abstract final class AppTheme {
   // Border radius constants
   static const double radiusSmall = 8.0;

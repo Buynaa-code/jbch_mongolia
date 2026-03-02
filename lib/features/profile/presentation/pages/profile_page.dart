@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_cubit.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
 import '../widgets/favorites_section.dart';
@@ -105,44 +106,48 @@ class _ProfilePageContent extends StatelessWidget {
                     ),
                     const SizedBox(height: AppTheme.spacingLarge),
                     // Settings sections
-                    SettingsSection(
-                      title: 'Төрх',
-                      children: [
-                        SettingsTile(
-                          icon: Icons.palette_outlined,
-                          iconColor: AppColors.accent,
-                          title: 'Харанхуй горим',
-                          subtitle: _getThemeModeText(state.themeMode),
-                          trailing: SegmentedButton<ThemeMode>(
-                            segments: const [
-                              ButtonSegment(
-                                value: ThemeMode.light,
-                                icon: Icon(Icons.light_mode, size: 18),
+                    BlocBuilder<ThemeCubit, ThemeState>(
+                      builder: (context, themeState) {
+                        return SettingsSection(
+                          title: 'Төрх',
+                          children: [
+                            SettingsTile(
+                              icon: Icons.palette_outlined,
+                              iconColor: AppColors.accent,
+                              title: 'Харанхуй горим',
+                              subtitle: _getThemeModeText(themeState.themeMode),
+                              trailing: SegmentedButton<ThemeMode>(
+                                segments: const [
+                                  ButtonSegment(
+                                    value: ThemeMode.light,
+                                    icon: Icon(Icons.light_mode, size: 18),
+                                  ),
+                                  ButtonSegment(
+                                    value: ThemeMode.system,
+                                    icon: Icon(Icons.brightness_auto, size: 18),
+                                  ),
+                                  ButtonSegment(
+                                    value: ThemeMode.dark,
+                                    icon: Icon(Icons.dark_mode, size: 18),
+                                  ),
+                                ],
+                                selected: {themeState.themeMode},
+                                onSelectionChanged: (modes) {
+                                  context
+                                      .read<ThemeCubit>()
+                                      .setThemeMode(modes.first);
+                                },
+                                showSelectedIcon: false,
+                                style: ButtonStyle(
+                                  visualDensity: VisualDensity.compact,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
                               ),
-                              ButtonSegment(
-                                value: ThemeMode.system,
-                                icon: Icon(Icons.brightness_auto, size: 18),
-                              ),
-                              ButtonSegment(
-                                value: ThemeMode.dark,
-                                icon: Icon(Icons.dark_mode, size: 18),
-                              ),
-                            ],
-                            selected: {state.themeMode},
-                            onSelectionChanged: (modes) {
-                              context
-                                  .read<ProfileCubit>()
-                                  .changeThemeMode(modes.first);
-                            },
-                            showSelectedIcon: false,
-                            style: ButtonStyle(
-                              visualDensity: VisualDensity.compact,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              showDivider: false,
                             ),
-                          ),
-                          showDivider: false,
-                        ),
-                      ],
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: AppTheme.spacingMedium),
                     SettingsSection(

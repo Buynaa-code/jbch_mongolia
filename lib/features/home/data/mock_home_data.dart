@@ -114,7 +114,7 @@ abstract final class MockHomeData {
         title: 'Эзэн миний хоньчин',
         artist: 'Магтаалын баг',
         duration: Duration(minutes: 4, seconds: 32),
-        category: SongCategory.worship,
+        category: SongCategory.praise,
         isFavorite: true,
       );
 
