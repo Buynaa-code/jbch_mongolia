@@ -45,6 +45,24 @@ dependencies:
   # Fonts
   google_fonts: ^6.2.1
 
+  # Network
+  dio: ^5.7.0
+  connectivity_plus: ^6.0.0
+
+  # Functional programming
+  dartz: ^0.10.1
+
+  # Dependency injection
+  get_it: ^8.0.0
+  injectable: ^2.5.0
+
+  # Local storage
+  flutter_secure_storage: ^9.2.0
+  shared_preferences: ^2.3.0
+
+  # JSON serialization
+  json_annotation: ^4.9.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,6 +76,11 @@ dev_dependencies:
 
   # Testing
   bloc_test: ^10.0.0
+
+  # Code generation
+  build_runner: ^2.4.0
+  json_serializable: ^6.8.0
+  injectable_generator: ^2.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

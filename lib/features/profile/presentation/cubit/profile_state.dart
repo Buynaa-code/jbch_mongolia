@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/models/song_model.dart';
-import '../../../../shared/models/verse_model.dart';
-import '../../data/mock_profile_data.dart';
+import '../../../library/domain/entities/song.dart';
+import '../../../library/domain/entities/verse.dart';
+import '../../domain/entities/user_profile.dart';
 
 /// State for the Profile feature
 sealed class ProfileState extends Equatable {
@@ -26,8 +26,8 @@ final class ProfileLoading extends ProfileState {
 /// Loaded state with profile data
 final class ProfileLoaded extends ProfileState {
   final UserProfile user;
-  final List<VerseModel> favoriteVerses;
-  final List<SongModel> favoriteSongs;
+  final List<Verse> favoriteVerses;
+  final List<Song> favoriteSongs;
   final ThemeMode themeMode;
   final bool notificationsEnabled;
 
@@ -41,8 +41,8 @@ final class ProfileLoaded extends ProfileState {
 
   ProfileLoaded copyWith({
     UserProfile? user,
-    List<VerseModel>? favoriteVerses,
-    List<SongModel>? favoriteSongs,
+    List<Verse>? favoriteVerses,
+    List<Song>? favoriteSongs,
     ThemeMode? themeMode,
     bool? notificationsEnabled,
   }) {

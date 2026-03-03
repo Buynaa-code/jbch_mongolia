@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/event_model.dart';
 import '../../../../shared/widgets/section_header.dart';
+import '../../domain/entities/event.dart';
 import '../cubit/events_cubit.dart';
 import '../cubit/events_state.dart';
 import '../widgets/event_card.dart';
@@ -17,7 +18,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => EventsCubit()..loadEvents(),
+      create: (_) => getIt<EventsCubit>()..loadEvents(),
       child: const _EventsPageContent(),
     );
   }

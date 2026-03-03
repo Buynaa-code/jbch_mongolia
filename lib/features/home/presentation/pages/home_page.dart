@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 import '../widgets/memory_verse_card.dart';
-import '../widgets/next_seminar_card.dart';
 import '../widgets/quick_player_card.dart';
+import '../widgets/seminar_carousel_section.dart';
 import '../widgets/weekly_program_section.dart';
 
 /// Home page displaying church overview
@@ -18,7 +19,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeCubit()..loadHomeData(),
+      create: (_) => getIt<HomeCubit>()..loadHomeData(),
       child: const _HomePageContent(),
     );
   }
@@ -93,14 +94,17 @@ class _HomePageContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Next seminar card
-                    if (state.nextSeminar != null)
+                    // Seminars carousel
+                    if (state.seminars.isNotEmpty)
                       Padding(
-                        padding: const EdgeInsets.all(AppTheme.spacingMedium),
-                        child: NextSeminarCard(
-                          event: state.nextSeminar!,
-                          onTap: () {
-                            context.push('/events/${state.nextSeminar!.id}');
+                        padding: const EdgeInsets.only(
+                          top: AppTheme.spacingMedium,
+                          bottom: AppTheme.spacingSmall,
+                        ),
+                        child: SeminarCarouselSection(
+                          seminars: state.seminars,
+                          onTap: (seminar) {
+                            context.push('/events/${seminar.id}');
                           },
                         ),
                       ),

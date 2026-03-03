@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/verse_model.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../../library/domain/entities/verse.dart';
 
 /// Card displaying the memory verse of the week
 class MemoryVerseCard extends StatelessWidget {
-  final VerseModel verse;
+  final Verse verse;
   final VoidCallback? onTap;
   final VoidCallback? onShare;
 

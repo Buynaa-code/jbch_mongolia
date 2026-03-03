@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_cubit.dart';
@@ -17,7 +18,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ProfileCubit()..loadProfile(),
+      create: (_) => getIt<ProfileCubit>()..loadProfile(),
       child: const _ProfilePageContent(),
     );
   }
@@ -205,8 +206,11 @@ class _ProfilePageContent extends StatelessWidget {
                       child: SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: () {
-                            // TODO: Sign out
+                          onPressed: () async {
+                            await context.read<ProfileCubit>().logout();
+                            if (context.mounted) {
+                              context.go('/login');
+                            }
                           },
                           icon: const Icon(Icons.logout),
                           label: const Text('Гарах'),

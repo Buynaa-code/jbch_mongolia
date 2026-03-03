@@ -1,28 +1,94 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../../shared/models/event_model.dart';
-import '../../data/mock_events_data.dart';
+import '../../domain/entities/event.dart';
+import '../../domain/usecases/get_events.dart';
+import '../../domain/usecases/get_upcoming_events.dart';
+import '../../domain/usecases/register_for_event.dart';
 import 'events_state.dart';
 
 /// Cubit for managing Events feature state
+@injectable
 class EventsCubit extends Cubit<EventsState> {
-  EventsCubit() : super(const EventsInitial());
+  final GetEventsUseCase _getEventsUseCase;
+  final GetUpcomingEventsUseCase _getUpcomingEventsUseCase;
+  final RegisterForEventUseCase _registerForEventUseCase;
+
+  EventsCubit(
+    this._getEventsUseCase,
+    this._getUpcomingEventsUseCase,
+    this._registerForEventUseCase,
+  ) : super(const EventsInitial());
 
   /// Load events data
   Future<void> loadEvents() async {
     emit(const EventsLoading());
 
-    try {
-      // Simulate network delay
-      await Future.delayed(const Duration(milliseconds: 500));
+    final result = await _getEventsUseCase();
 
-      emit(EventsLoaded(
-        upcomingEvents: MockEventsData.upcomingEvents,
-        pastEvents: MockEventsData.pastEvents,
-      ));
-    } catch (e) {
-      emit(EventsError('Арга хэмжээ ачаалахад алдаа гарлаа: $e'));
-    }
+    result.fold(
+      (failure) => emit(EventsError(failure.message)),
+      (events) {
+        final now = DateTime.now();
+        final upcomingEvents =
+            events.where((e) => e.dateTime.isAfter(now)).toList();
+        final pastEvents =
+            events.where((e) => e.dateTime.isBefore(now)).toList();
+
+        emit(EventsLoaded(
+          upcomingEvents: upcomingEvents,
+          pastEvents: pastEvents,
+        ));
+      },
+    );
+  }
+
+  /// Load only upcoming events
+  Future<void> loadUpcomingEvents() async {
+    emit(const EventsLoading());
+
+    final result = await _getUpcomingEventsUseCase();
+
+    result.fold(
+      (failure) => emit(EventsError(failure.message)),
+      (events) => emit(EventsLoaded(
+        upcomingEvents: events,
+        pastEvents: const [],
+      )),
+    );
+  }
+
+  /// Register for an event
+  Future<void> registerForEvent(String eventId) async {
+    final currentState = state;
+    if (currentState is! EventsLoaded) return;
+
+    final result = await _registerForEventUseCase(eventId);
+
+    result.fold(
+      (failure) => emit(EventsError(failure.message)),
+      (_) {
+        // Update the event in the list to show as registered
+        final updatedUpcoming = currentState.upcomingEvents.map((event) {
+          if (event.id == eventId) {
+            return Event(
+              id: event.id,
+              title: event.title,
+              description: event.description,
+              dateTime: event.dateTime,
+              location: event.location,
+              imageUrl: event.imageUrl,
+              type: event.type,
+              isUpcoming: event.isUpcoming,
+              isRegistered: true,
+            );
+          }
+          return event;
+        }).toList();
+
+        emit(currentState.copyWith(upcomingEvents: updatedUpcoming));
+      },
+    );
   }
 
   /// Filter events by type

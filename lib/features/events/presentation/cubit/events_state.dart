@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../shared/models/event_model.dart';
+import '../../domain/entities/event.dart';
 
 /// State for the Events feature
 sealed class EventsState extends Equatable {
@@ -22,8 +22,8 @@ final class EventsLoading extends EventsState {
 
 /// Loaded state with events data
 final class EventsLoaded extends EventsState {
-  final List<EventModel> upcomingEvents;
-  final List<EventModel> pastEvents;
+  final List<Event> upcomingEvents;
+  final List<Event> pastEvents;
   final EventType? selectedFilter;
 
   const EventsLoaded({
@@ -32,26 +32,27 @@ final class EventsLoaded extends EventsState {
     this.selectedFilter,
   });
 
-  List<EventModel> get filteredUpcomingEvents {
+  List<Event> get filteredUpcomingEvents {
     if (selectedFilter == null) return upcomingEvents;
     return upcomingEvents.where((e) => e.type == selectedFilter).toList();
   }
 
-  List<EventModel> get filteredPastEvents {
+  List<Event> get filteredPastEvents {
     if (selectedFilter == null) return pastEvents;
     return pastEvents.where((e) => e.type == selectedFilter).toList();
   }
 
   EventsLoaded copyWith({
-    List<EventModel>? upcomingEvents,
-    List<EventModel>? pastEvents,
+    List<Event>? upcomingEvents,
+    List<Event>? pastEvents,
     EventType? selectedFilter,
     bool clearFilter = false,
   }) {
     return EventsLoaded(
       upcomingEvents: upcomingEvents ?? this.upcomingEvents,
       pastEvents: pastEvents ?? this.pastEvents,
-      selectedFilter: clearFilter ? null : (selectedFilter ?? this.selectedFilter),
+      selectedFilter:
+          clearFilter ? null : (selectedFilter ?? this.selectedFilter),
     );
   }
 

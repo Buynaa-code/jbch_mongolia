@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/event_model.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../domain/entities/event.dart';
 
 /// Card displaying an event
 class EventCard extends StatelessWidget {
-  final EventModel event;
+  final Event event;
   final VoidCallback? onTap;
   final bool isCompact;
 

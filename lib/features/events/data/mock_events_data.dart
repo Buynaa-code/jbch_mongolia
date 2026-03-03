@@ -6,7 +6,7 @@ abstract final class MockEventsData {
   static List<EventModel> get upcomingEvents => [
         EventModel(
           id: '1',
-          title: 'Библи судлалын семинар',
+          title: 'Библийн семинар',
           description:
               'Библийн үндсэн номуудын тухай гүнзгий судалгаа хийх семинар. '
               'Бүх насны хүмүүст зориулагдсан.',

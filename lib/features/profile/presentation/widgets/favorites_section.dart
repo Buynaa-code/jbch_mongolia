@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/song_model.dart';
-import '../../../../shared/models/verse_model.dart';
+import '../../../library/domain/entities/song.dart';
+import '../../../library/domain/entities/verse.dart';
 
 /// Section displaying user's favorite items
 class FavoritesSection extends StatelessWidget {
-  final List<VerseModel> favoriteVerses;
-  final List<SongModel> favoriteSongs;
+  final List<Verse> favoriteVerses;
+  final List<Song> favoriteSongs;
   final VoidCallback? onViewAllVerses;
   final VoidCallback? onViewAllSongs;
 
@@ -157,7 +157,7 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _FavoriteVerseCard extends StatelessWidget {
-  final VerseModel verse;
+  final Verse verse;
   final bool isDark;
 
   const _FavoriteVerseCard({
@@ -214,7 +214,7 @@ class _FavoriteVerseCard extends StatelessWidget {
 }
 
 class _FavoriteSongCard extends StatelessWidget {
-  final SongModel song;
+  final Song song;
   final bool isDark;
 
   const _FavoriteSongCard({

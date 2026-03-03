@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/song_model.dart';
+import '../../domain/entities/song.dart';
 
 /// Card displaying a song
 class SongCard extends StatelessWidget {
-  final SongModel song;
+  final Song song;
   final bool isPlaying;
   final bool isCurrentSong;
   final VoidCallback? onTap;

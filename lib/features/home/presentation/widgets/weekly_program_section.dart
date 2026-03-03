@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../data/mock_home_data.dart';
+import '../../domain/entities/weekly_program.dart';
 
 /// Section displaying the weekly church program
 class WeeklyProgramSection extends StatelessWidget {

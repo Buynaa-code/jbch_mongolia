@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/song_model.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../../library/domain/entities/song.dart';
 
 /// Card displaying a quick music player
 class QuickPlayerCard extends StatelessWidget {
-  final SongModel? currentSong;
-  final List<SongModel> recentSongs;
+  final Song? currentSong;
+  final List<Song> recentSongs;
   final bool isPlaying;
   final Duration currentPosition;
   final VoidCallback? onPlayPause;
-  final ValueChanged<SongModel>? onSongSelect;
+  final ValueChanged<Song>? onSongSelect;
   final VoidCallback? onViewAll;
 
   const QuickPlayerCard({
@@ -176,7 +176,7 @@ class QuickPlayerCard extends StatelessWidget {
 }
 
 class _RecentSongTile extends StatelessWidget {
-  final SongModel song;
+  final Song song;
   final VoidCallback? onTap;
   final bool isDark;
 

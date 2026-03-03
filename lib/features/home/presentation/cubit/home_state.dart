@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../shared/models/event_model.dart';
-import '../../../../shared/models/song_model.dart';
-import '../../../../shared/models/verse_model.dart';
-import '../../data/mock_home_data.dart';
+import '../../../events/domain/entities/event.dart';
+import '../../../library/domain/entities/song.dart';
+import '../../../library/domain/entities/verse.dart';
+import '../../domain/entities/weekly_program.dart';
 
 /// State for the Home feature
 sealed class HomeState extends Equatable {
@@ -25,16 +25,16 @@ final class HomeLoading extends HomeState {
 
 /// Loaded state with all home data
 final class HomeLoaded extends HomeState {
-  final EventModel? nextSeminar;
+  final List<Event> seminars;
   final List<WeeklyProgramItem> weeklyProgram;
-  final VerseModel memoryVerse;
-  final SongModel? currentSong;
-  final List<SongModel> recentSongs;
+  final Verse memoryVerse;
+  final Song? currentSong;
+  final List<Song> recentSongs;
   final bool isPlaying;
   final Duration currentPosition;
 
   const HomeLoaded({
-    this.nextSeminar,
+    this.seminars = const [],
     required this.weeklyProgram,
     required this.memoryVerse,
     this.currentSong,
@@ -44,16 +44,16 @@ final class HomeLoaded extends HomeState {
   });
 
   HomeLoaded copyWith({
-    EventModel? nextSeminar,
+    List<Event>? seminars,
     List<WeeklyProgramItem>? weeklyProgram,
-    VerseModel? memoryVerse,
-    SongModel? currentSong,
-    List<SongModel>? recentSongs,
+    Verse? memoryVerse,
+    Song? currentSong,
+    List<Song>? recentSongs,
     bool? isPlaying,
     Duration? currentPosition,
   }) {
     return HomeLoaded(
-      nextSeminar: nextSeminar ?? this.nextSeminar,
+      seminars: seminars ?? this.seminars,
       weeklyProgram: weeklyProgram ?? this.weeklyProgram,
       memoryVerse: memoryVerse ?? this.memoryVerse,
       currentSong: currentSong ?? this.currentSong,
@@ -65,7 +65,7 @@ final class HomeLoaded extends HomeState {
 
   @override
   List<Object?> get props => [
-        nextSeminar,
+        seminars,
         weeklyProgram,
         memoryVerse,
         currentSong,

@@ -4,18 +4,42 @@ import '../../../shared/models/verse_model.dart';
 
 /// Mock data for the Home feature
 abstract final class MockHomeData {
-  /// Next upcoming seminar
-  static EventModel get nextSeminar => EventModel(
-        id: '1',
-        title: 'Библи судлалын семинар',
-        description:
-            'Библийн үндсэн номуудын тухай гүнзгий судалгаа хийх семинар. '
-            'Бүх насны хүмүүст зориулагдсан.',
-        dateTime: DateTime.now().add(const Duration(days: 3, hours: 10)),
-        location: 'Төв сүм, 2-р давхар',
-        type: EventType.seminar,
-        isUpcoming: true,
-      );
+  /// Upcoming seminars list for carousel
+  static List<EventModel> get seminars => [
+        EventModel(
+          id: '1',
+          title: 'Библийн семинар',
+          description:
+              'Библийн үндсэн номуудын тухай гүнзгий судалгаа хийх семинар. '
+              'Бүх насны хүмүүст зориулагдсан.',
+          dateTime: DateTime.now().add(const Duration(days: 3, hours: 10)),
+          location: 'Төв сүм, 2-р давхар',
+          type: EventType.seminar,
+          isUpcoming: true,
+        ),
+        EventModel(
+          id: '2',
+          title: 'Шинэ гэрээний судалгаа',
+          description:
+              'Шинэ гэрээний номуудыг дэлгэрэнгүй судлах семинар. '
+              'Итгэгчдэд зориулагдсан.',
+          dateTime: DateTime.now().add(const Duration(days: 10, hours: 14)),
+          location: 'Сургалтын танхим, 3-р давхар',
+          type: EventType.seminar,
+          isUpcoming: true,
+        ),
+        EventModel(
+          id: '3',
+          title: 'Залбирлын семинар',
+          description:
+              'Залбирлын үндэс болон практик дадлага хийх тусгай цуглаан. '
+              'Бүх нас, шатны итгэгчдэд нээлттэй.',
+          dateTime: DateTime.now().add(const Duration(days: 17, hours: 9)),
+          location: 'Төв сүм, 1-р давхар',
+          type: EventType.seminar,
+          isUpcoming: true,
+        ),
+      ];
 
   /// Weekly program events
   static List<WeeklyProgramItem> get weeklyProgram => [

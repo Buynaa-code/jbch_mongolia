@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/sermon_model.dart';
 import '../../../../shared/widgets/app_card.dart';
+import '../../domain/entities/sermon.dart';
 
 /// Card displaying a sermon
 class SermonCard extends StatelessWidget {
-  final SermonModel sermon;
+  final Sermon sermon;
   final VoidCallback? onTap;
   final VoidCallback? onPlay;
   final VoidCallback? onFavoriteToggle;

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../shared/models/sermon_model.dart';
-import '../../../../shared/models/song_model.dart';
-import '../../../../shared/models/verse_model.dart';
+import '../../domain/entities/sermon.dart';
+import '../../domain/entities/song.dart';
+import '../../domain/entities/verse.dart';
 
 /// Enum for library tabs
 enum LibraryTab { verses, songs, sermons }
@@ -27,11 +27,11 @@ final class LibraryLoading extends LibraryState {
 
 /// Loaded state with library data
 final class LibraryLoaded extends LibraryState {
-  final List<VerseModel> verses;
-  final List<SongModel> songs;
-  final List<SermonModel> sermons;
+  final List<Verse> verses;
+  final List<Song> songs;
+  final List<Sermon> sermons;
   final LibraryTab currentTab;
-  final SongModel? currentlyPlayingSong;
+  final Song? currentlyPlayingSong;
   final bool isPlaying;
   final Duration currentPosition;
   final String searchQuery;
@@ -47,7 +47,7 @@ final class LibraryLoaded extends LibraryState {
     this.searchQuery = '',
   });
 
-  List<VerseModel> get filteredVerses {
+  List<Verse> get filteredVerses {
     if (searchQuery.isEmpty) return verses;
     final query = searchQuery.toLowerCase();
     return verses
@@ -57,7 +57,7 @@ final class LibraryLoaded extends LibraryState {
         .toList();
   }
 
-  List<SongModel> get filteredSongs {
+  List<Song> get filteredSongs {
     if (searchQuery.isEmpty) return songs;
     final query = searchQuery.toLowerCase();
     return songs
@@ -67,7 +67,7 @@ final class LibraryLoaded extends LibraryState {
         .toList();
   }
 
-  List<SermonModel> get filteredSermons {
+  List<Sermon> get filteredSermons {
     if (searchQuery.isEmpty) return sermons;
     final query = searchQuery.toLowerCase();
     return sermons
@@ -78,21 +78,20 @@ final class LibraryLoaded extends LibraryState {
         .toList();
   }
 
-  List<VerseModel> get favoriteVerses =>
+  List<Verse> get favoriteVerses =>
       verses.where((v) => v.isFavorite).toList();
 
-  List<SongModel> get favoriteSongs =>
-      songs.where((s) => s.isFavorite).toList();
+  List<Song> get favoriteSongs => songs.where((s) => s.isFavorite).toList();
 
-  List<SermonModel> get favoriteSermons =>
+  List<Sermon> get favoriteSermons =>
       sermons.where((s) => s.isFavorite).toList();
 
   LibraryLoaded copyWith({
-    List<VerseModel>? verses,
-    List<SongModel>? songs,
-    List<SermonModel>? sermons,
+    List<Verse>? verses,
+    List<Song>? songs,
+    List<Sermon>? sermons,
     LibraryTab? currentTab,
-    SongModel? currentlyPlayingSong,
+    Song? currentlyPlayingSong,
     bool? isPlaying,
     Duration? currentPosition,
     String? searchQuery,
