@@ -167,7 +167,7 @@ class _LibraryPageContentState extends State<_LibraryPageContent>
                           }
                         },
                         onSongTap: (song) {
-                          context.push('/library/song/${song.id}');
+                          context.push('/library/song/${song.id}', extra: song);
                         },
                         onFavoriteToggle: (id) {
                           context.read<LibraryCubit>().toggleSongFavorite(id);

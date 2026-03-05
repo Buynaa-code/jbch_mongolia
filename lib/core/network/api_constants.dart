@@ -3,13 +3,20 @@ import 'dart:io';
 /// API constants and endpoint definitions
 abstract final class ApiConstants {
   /// Base URL for the API
-  /// Uses 10.0.2.2 for Android emulator, localhost for iOS simulator
+  /// For real devices, use your computer's IP address
+  /// For emulators: Android uses 10.0.2.2, iOS uses localhost
   static String get baseUrl {
+    // TODO: Change to your computer's IP for real device testing
+    // return 'http://192.168.1.112:5001/api';
+
     if (Platform.isAndroid) {
       return 'http://10.0.2.2:5001/api';
     }
     return 'http://localhost:5001/api';
   }
+
+  /// Use this for real device testing
+  static const String realDeviceBaseUrl = 'http://192.168.1.112:5001/api';
 
   /// Connection timeout in milliseconds
   static const int connectionTimeout = 30000;

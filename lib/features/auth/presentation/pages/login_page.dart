@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
           );
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 24),
                   // Skip login button
                   TextButton(
-                    onPressed: () => context.go('/'),
+                    onPressed: () => context.go('/home'),
                     child: Text(
                       'Нэвтрэхгүйгээр үргэлжлүүлэх',
                       style: AppTextStyles.bodyMedium.copyWith(

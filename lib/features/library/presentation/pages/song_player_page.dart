@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../shared/models/song_model.dart';
-import '../../data/mock_library_data.dart';
+import '../../domain/entities/song.dart';
 
 /// Full-screen song player page
 class SongPlayerPage extends StatefulWidget {
-  final String songId;
+  final Song? song;
 
   const SongPlayerPage({
     super.key,
-    required this.songId,
+    this.song,
   });
 
   @override
@@ -19,7 +18,7 @@ class SongPlayerPage extends StatefulWidget {
 }
 
 class _SongPlayerPageState extends State<SongPlayerPage> {
-  late SongModel? _song;
+  Song? _song;
   bool _isPlaying = false;
   Duration _currentPosition = Duration.zero;
   bool _showLyrics = false;
@@ -27,7 +26,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
   @override
   void initState() {
     super.initState();
-    _song = MockLibraryData.getSongById(widget.songId);
+    _song = widget.song;
   }
 
   void _togglePlayPause() {
@@ -217,9 +216,11 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                                   .withValues(alpha: 0.1),
                             ),
                             child: Slider(
-                              value: (_currentPosition.inMilliseconds /
-                                      _song!.duration.inMilliseconds)
-                                  .clamp(0.0, 1.0),
+                              value: _song!.duration.inMilliseconds > 0
+                                  ? (_currentPosition.inMilliseconds /
+                                          _song!.duration.inMilliseconds)
+                                      .clamp(0.0, 1.0)
+                                  : 0.0,
                               onChanged: _seek,
                             ),
                           ),

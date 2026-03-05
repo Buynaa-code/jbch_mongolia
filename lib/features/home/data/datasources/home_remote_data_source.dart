@@ -31,9 +31,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<EventModel>> getUpcomingSeminars() async {
     final response = await _dioClient.get(ApiConstants.upcomingEvents);
-    final data = response.data as Map<String, dynamic>;
-    final eventsList = data['events'] as List<dynamic>;
-    return eventsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return (data)
         .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -41,9 +44,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<WeeklyProgramItemModel>> getWeeklyProgram() async {
     final response = await _dioClient.get(ApiConstants.weeklyProgram);
-    final data = response.data as Map<String, dynamic>;
-    final programList = data['program'] as List<dynamic>;
-    return programList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return (data)
         .map((e) =>
             WeeklyProgramItemModel.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -52,16 +58,20 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<VerseModel> getMemoryVerse() async {
     final response = await _dioClient.get(ApiConstants.verseOfWeek);
-    final data = response.data as Map<String, dynamic>;
-    return VerseModel.fromJson(data['verse'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
+    return VerseModel.fromJson(data);
   }
 
   @override
   Future<List<SongModel>> getFeaturedSongs() async {
     final response = await _dioClient.get(ApiConstants.featuredSongs);
-    final data = response.data as Map<String, dynamic>;
-    final songsList = data['songs'] as List<dynamic>;
-    return songsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return (data)
         .map((e) => SongModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }

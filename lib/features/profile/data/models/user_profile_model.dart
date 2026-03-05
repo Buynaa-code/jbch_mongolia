@@ -14,8 +14,15 @@ class UserProfileModel extends UserProfile {
     super.profileImageUrl,
   });
 
-  factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$UserProfileModelFromJson(json);
+  factory UserProfileModel.fromJson(Map<String, dynamic> json) {
+    return UserProfileModel(
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      memberSince: json['memberSince'] as String? ?? '',
+      profileImageUrl: json['profileImageUrl'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$UserProfileModelToJson(this);
 

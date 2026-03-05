@@ -27,7 +27,7 @@ final class HomeLoading extends HomeState {
 final class HomeLoaded extends HomeState {
   final List<Event> seminars;
   final List<WeeklyProgramItem> weeklyProgram;
-  final Verse memoryVerse;
+  final Verse? memoryVerse;
   final Song? currentSong;
   final List<Song> recentSongs;
   final bool isPlaying;
@@ -36,7 +36,7 @@ final class HomeLoaded extends HomeState {
   const HomeLoaded({
     this.seminars = const [],
     required this.weeklyProgram,
-    required this.memoryVerse,
+    this.memoryVerse,
     this.currentSong,
     required this.recentSongs,
     this.isPlaying = false,

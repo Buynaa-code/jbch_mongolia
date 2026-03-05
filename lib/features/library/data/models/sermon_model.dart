@@ -22,8 +22,26 @@ class SermonModel extends Sermon {
     super.series,
   });
 
-  factory SermonModel.fromJson(Map<String, dynamic> json) =>
-      _$SermonModelFromJson(json);
+  factory SermonModel.fromJson(Map<String, dynamic> json) {
+    return SermonModel(
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      preacher: json['preacher'] as String? ?? '',
+      date: json['date'] != null
+          ? DateTime.tryParse(json['date'] as String) ?? DateTime.now()
+          : DateTime.now(),
+      duration: Duration(milliseconds: json['durationMs'] as int? ?? 0),
+      audioUrl: json['audioUrl'] as String?,
+      videoUrl: json['videoUrl'] as String?,
+      thumbnailUrl: json['thumbnailUrl'] as String?,
+      description: json['description'] as String?,
+      bibleReference: json['bibleReference'] as String?,
+      isFavorite: json['isFavorite'] as bool? ?? false,
+      series: json['series'] != null
+          ? SermonSeriesModel.fromJson(json['series'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$SermonModelToJson(this);
 
@@ -55,8 +73,14 @@ class SermonSeriesModel extends SermonSeries {
     super.imageUrl,
   });
 
-  factory SermonSeriesModel.fromJson(Map<String, dynamic> json) =>
-      _$SermonSeriesModelFromJson(json);
+  factory SermonSeriesModel.fromJson(Map<String, dynamic> json) {
+    return SermonSeriesModel(
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      description: json['description'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$SermonSeriesModelToJson(this);
 }

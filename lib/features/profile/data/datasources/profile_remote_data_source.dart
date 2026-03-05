@@ -35,7 +35,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<UserProfileModel> getProfile() async {
     try {
       final response = await _dioClient.get(ApiConstants.userProfile);
-      return UserProfileModel.fromJson(response.data);
+      final responseData = response.data as Map<String, dynamic>;
+      return UserProfileModel.fromJson(responseData['data'] as Map<String, dynamic>);
     } on ServerException {
       rethrow;
     } catch (e) {
@@ -59,7 +60,8 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         ApiConstants.userProfile,
         data: data,
       );
-      return UserProfileModel.fromJson(response.data);
+      final responseData = response.data as Map<String, dynamic>;
+      return UserProfileModel.fromJson(responseData['data'] as Map<String, dynamic>);
     } on ServerException {
       rethrow;
     } catch (e) {
@@ -71,8 +73,14 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<List<SongModel>> getFavoriteSongs() async {
     try {
       final response = await _dioClient.get(ApiConstants.userFavoriteSongs);
-      final List<dynamic> data = response.data;
-      return data.map((json) => SongModel.fromJson(json)).toList();
+      final responseData = response.data as Map<String, dynamic>;
+      final data = responseData['data'];
+      if (data == null || data is! List) {
+        return [];
+      }
+      return data
+          .map((json) => SongModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } on ServerException {
       rethrow;
     } catch (e) {
@@ -84,8 +92,14 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<List<VerseModel>> getFavoriteVerses() async {
     try {
       final response = await _dioClient.get(ApiConstants.userFavoriteVerses);
-      final List<dynamic> data = response.data;
-      return data.map((json) => VerseModel.fromJson(json)).toList();
+      final responseData = response.data as Map<String, dynamic>;
+      final data = responseData['data'];
+      if (data == null || data is! List) {
+        return [];
+      }
+      return data
+          .map((json) => VerseModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } on ServerException {
       rethrow;
     } catch (e) {

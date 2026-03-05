@@ -38,9 +38,12 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<List<SongModel>> getSongs() async {
     final response = await _dioClient.get(ApiConstants.songs);
-    final data = response.data as Map<String, dynamic>;
-    final songsList = data['songs'] as List<dynamic>;
-    return songsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => SongModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -48,9 +51,12 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<List<SongModel>> getFeaturedSongs() async {
     final response = await _dioClient.get(ApiConstants.featuredSongs);
-    final data = response.data as Map<String, dynamic>;
-    final songsList = data['songs'] as List<dynamic>;
-    return songsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => SongModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -58,15 +64,15 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<SongModel> getSongById(String id) async {
     final response = await _dioClient.get(ApiConstants.songById(id));
-    final data = response.data as Map<String, dynamic>;
-    return SongModel.fromJson(data['song'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return SongModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   @override
   Future<SongModel> toggleSongFavorite(String id) async {
     final response = await _dioClient.post(ApiConstants.toggleSongFavorite(id));
-    final data = response.data as Map<String, dynamic>;
-    return SongModel.fromJson(data['song'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return SongModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   // ============ Verses ============
@@ -74,9 +80,12 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<List<VerseModel>> getVerses() async {
     final response = await _dioClient.get(ApiConstants.verses);
-    final data = response.data as Map<String, dynamic>;
-    final versesList = data['verses'] as List<dynamic>;
-    return versesList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => VerseModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -84,23 +93,23 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<VerseModel> getVerseOfWeek() async {
     final response = await _dioClient.get(ApiConstants.verseOfWeek);
-    final data = response.data as Map<String, dynamic>;
-    return VerseModel.fromJson(data['verse'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return VerseModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   @override
   Future<VerseModel> getVerseById(String id) async {
     final response = await _dioClient.get(ApiConstants.verseById(id));
-    final data = response.data as Map<String, dynamic>;
-    return VerseModel.fromJson(data['verse'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return VerseModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   @override
   Future<VerseModel> toggleVerseFavorite(String id) async {
     final response =
         await _dioClient.post(ApiConstants.toggleVerseFavorite(id));
-    final data = response.data as Map<String, dynamic>;
-    return VerseModel.fromJson(data['verse'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return VerseModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   // ============ Sermons ============
@@ -108,9 +117,12 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<List<SermonModel>> getSermons() async {
     final response = await _dioClient.get(ApiConstants.sermons);
-    final data = response.data as Map<String, dynamic>;
-    final sermonsList = data['sermons'] as List<dynamic>;
-    return sermonsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => SermonModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -118,9 +130,12 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<List<SermonModel>> getRecentSermons() async {
     final response = await _dioClient.get(ApiConstants.recentSermons);
-    final data = response.data as Map<String, dynamic>;
-    final sermonsList = data['sermons'] as List<dynamic>;
-    return sermonsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => SermonModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -128,15 +143,15 @@ class LibraryRemoteDataSourceImpl implements LibraryRemoteDataSource {
   @override
   Future<SermonModel> getSermonById(String id) async {
     final response = await _dioClient.get(ApiConstants.sermonById(id));
-    final data = response.data as Map<String, dynamic>;
-    return SermonModel.fromJson(data['sermon'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return SermonModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   @override
   Future<SermonModel> toggleSermonFavorite(String id) async {
     final response =
         await _dioClient.post(ApiConstants.toggleSermonFavorite(id));
-    final data = response.data as Map<String, dynamic>;
-    return SermonModel.fromJson(data['sermon'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return SermonModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 }

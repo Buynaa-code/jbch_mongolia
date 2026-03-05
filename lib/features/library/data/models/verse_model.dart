@@ -18,8 +18,18 @@ class VerseModel extends Verse {
     super.isMemoryVerse,
   });
 
-  factory VerseModel.fromJson(Map<String, dynamic> json) =>
-      _$VerseModelFromJson(json);
+  factory VerseModel.fromJson(Map<String, dynamic> json) {
+    return VerseModel(
+      id: json['id'] as String? ?? json['_id'] as String? ?? '',
+      book: json['book'] as String? ?? '',
+      chapter: (json['chapter'] as num?)?.toInt() ?? 1,
+      verseStart: (json['verseStart'] as num?)?.toInt() ?? 1,
+      verseEnd: (json['verseEnd'] as num?)?.toInt(),
+      text: json['text'] as String? ?? '',
+      isFavorite: json['isFavorite'] as bool? ?? false,
+      isMemoryVerse: json['isMemoryVerse'] as bool? ?? false,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$VerseModelToJson(this);
 

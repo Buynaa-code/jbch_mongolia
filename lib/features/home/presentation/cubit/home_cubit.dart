@@ -46,15 +46,6 @@ class HomeCubit extends Cubit<HomeState> {
         return;
       }
 
-      memoryVerseResult.fold(
-        (failure) => errorMessage = failure.message,
-        (_) {},
-      );
-      if (errorMessage != null) {
-        emit(HomeError(errorMessage!));
-        return;
-      }
-
       // Get the data with proper types
       final List<Event> seminars = seminarsResult.fold(
         (_) => <Event>[],
@@ -64,8 +55,9 @@ class HomeCubit extends Cubit<HomeState> {
         (_) => <WeeklyProgramItem>[],
         (data) => data,
       );
-      final Verse memoryVerse = memoryVerseResult.fold(
-        (failure) => throw Exception(failure.message),
+      // Memory verse is optional - don't block the page if it fails
+      final Verse? memoryVerse = memoryVerseResult.fold(
+        (_) => null,
         (verse) => verse,
       );
       final List<Song> featuredSongs = featuredSongsResult.fold(

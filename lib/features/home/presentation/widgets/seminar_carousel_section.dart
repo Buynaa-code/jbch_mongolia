@@ -26,6 +26,7 @@ class _SeminarCarouselSectionState extends State<SeminarCarouselSection> {
   late final PageController _pageController;
   int _currentPage = 0;
   Timer? _autoPlayTimer;
+  bool _isUserInteracting = false;
 
   @override
   void initState() {
@@ -35,14 +36,29 @@ class _SeminarCarouselSectionState extends State<SeminarCarouselSection> {
   }
 
   void _startAutoPlay() {
-    _autoPlayTimer = Timer.periodic(const Duration(seconds: 4), (_) {
-      if (!mounted) return;
+    _autoPlayTimer?.cancel();
+    _autoPlayTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (!mounted || _isUserInteracting) return;
       final nextPage = (_currentPage + 1) % widget.seminars.length;
       _pageController.animateToPage(
         nextPage,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOutCubic,
       );
+    });
+  }
+
+  void _pauseAutoPlay() {
+    setState(() => _isUserInteracting = true);
+    _autoPlayTimer?.cancel();
+  }
+
+  void _resumeAutoPlay() {
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() => _isUserInteracting = false);
+        _startAutoPlay();
+      }
     });
   }
 
@@ -59,49 +75,95 @@ class _SeminarCarouselSectionState extends State<SeminarCarouselSection> {
 
     return Column(
       children: [
-        SizedBox(
-          // Fixed height so the PageView doesn't need unbounded height
-          height: 220,
-          child: PageView.builder(
-            controller: _pageController,
-            itemCount: widget.seminars.length,
-            onPageChanged: (index) {
-              setState(() => _currentPage = index);
-            },
-            itemBuilder: (context, index) {
-              final seminar = widget.seminars[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppTheme.spacingMedium,
-                ),
-                child: NextSeminarCard(
-                  event: seminar,
-                  onTap: () => widget.onTap?.call(seminar),
-                ),
-              );
-            },
+        GestureDetector(
+          onPanDown: (_) => _pauseAutoPlay(),
+          onPanEnd: (_) => _resumeAutoPlay(),
+          onTapDown: (_) => _pauseAutoPlay(),
+          onTapUp: (_) => _resumeAutoPlay(),
+          child: SizedBox(
+            height: 220,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: widget.seminars.length,
+              onPageChanged: (index) {
+                setState(() => _currentPage = index);
+                _pauseAutoPlay();
+                _resumeAutoPlay();
+              },
+              itemBuilder: (context, index) {
+                final seminar = widget.seminars[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppTheme.spacingMedium,
+                  ),
+                  child: NextSeminarCard(
+                    event: seminar,
+                    onTap: () {
+                      _pauseAutoPlay();
+                      widget.onTap?.call(seminar);
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ),
-        // Dot indicators
+
+        // Dot indicators with better visual design
         if (widget.seminars.length > 1) ...[
-          const SizedBox(height: AppTheme.spacingSmall),
+          const SizedBox(height: AppTheme.spacingMedium),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              widget.seminars.length,
-              (index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: _currentPage == index ? 20 : 8,
-                height: 8,
+            children: [
+              // Page counter for accessibility
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppTheme.spacingSmall,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
-                  color: _currentPage == index
-                      ? AppColors.primary
-                      : AppColors.primary.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(4),
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                ),
+                child: Text(
+                  '${_currentPage + 1} / ${widget.seminars.length}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(width: AppTheme.spacingSmall),
+              // Dot indicators
+              ...List.generate(
+                widget.seminars.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    _pauseAutoPlay();
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeInOutCubic,
+                    );
+                    _resumeAutoPlay();
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: _currentPage == index ? 24 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: _currentPage == index
+                          ? AppColors.primary
+                          : AppColors.primary.withValues(alpha: 0.25),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ],

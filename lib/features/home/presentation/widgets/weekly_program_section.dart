@@ -25,11 +25,40 @@ class WeeklyProgramSection extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     final currentDayIndex = _getCurrentDayIndex();
 
+    if (program.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppTheme.spacingMedium,
+          vertical: AppTheme.spacingLarge,
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 48,
+                color:
+                    theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+              ),
+              const SizedBox(height: AppTheme.spacingSmall),
+              Text(
+                'Хөтөлбөр одоогоор байхгүй',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return SizedBox(
-      height: 140,
+      height: 148,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMedium),
+        clipBehavior: Clip.none,
         itemCount: program.length,
         itemBuilder: (context, index) {
           final item = program[index];
@@ -37,7 +66,7 @@ class WeeklyProgramSection extends StatelessWidget {
 
           return Padding(
             padding: EdgeInsets.only(
-              right: index < program.length - 1 ? AppTheme.spacingSmall : 0,
+              right: index < program.length - 1 ? AppTheme.spacingMedium : 0,
             ),
             child: _DayCard(
               item: item,
@@ -67,11 +96,21 @@ class _DayCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      width: 120,
-      padding: const EdgeInsets.all(AppTheme.spacingSmall),
+      width: 128,
+      padding: const EdgeInsets.all(AppTheme.spacingMedium),
       decoration: BoxDecoration(
+        gradient: isToday
+            ? LinearGradient(
+                colors: [
+                  AppColors.primary,
+                  AppColors.primaryLight,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
         color: isToday
-            ? AppColors.primary
+            ? null
             : (isDark
                 ? AppColors.surfaceContainerDark
                 : AppColors.surfaceContainerLight),
@@ -79,80 +118,161 @@ class _DayCard extends StatelessWidget {
         border: isToday
             ? null
             : Border.all(
-                color: isDark ? AppColors.dividerDark : AppColors.dividerLight,
+                color: isDark
+                    ? AppColors.dividerDark
+                    : AppColors.dividerLight.withValues(alpha: 0.5),
+                width: 1.5,
               ),
+        boxShadow: isToday
+            ? [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: isDark
+                      ? Colors.transparent
+                      : Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Day name
-          Text(
-            item.dayName,
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: isToday ? Colors.white : theme.colorScheme.onSurface,
-              fontWeight: FontWeight.bold,
-            ),
+          // Day name with badge
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  item.dayName,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: isToday ? Colors.white : theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
-          if (isToday)
+          if (isToday) ...[
+            const SizedBox(height: AppTheme.spacingXSmall),
             Container(
-              margin: const EdgeInsets.only(top: AppTheme.spacingXSmall),
               padding: const EdgeInsets.symmetric(
-                horizontal: 6,
-                vertical: 2,
+                horizontal: 8,
+                vertical: 3,
               ),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(4),
+                color: Colors.white.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
               ),
               child: Text(
                 'Өнөөдөр',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: Colors.white,
                   fontSize: 10,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
+          ],
           const Spacer(),
-          // Events
-          ...item.events.take(2).map((event) => Padding(
-                padding: const EdgeInsets.only(bottom: AppTheme.spacingXSmall),
-                child: Row(
-                  children: [
-                    Text(
-                      event.icon,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            event.time,
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: isToday
-                                  ? Colors.white.withValues(alpha: 0.8)
-                                  : theme.colorScheme.onSurfaceVariant,
-                              fontSize: 10,
-                            ),
-                          ),
-                          Text(
-                            event.title,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: isToday
-                                  ? Colors.white
-                                  : theme.colorScheme.onSurface,
-                              fontSize: 11,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+
+          // Events list
+          if (item.events.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                'Арга хэмжээ байхгүй',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: isToday
+                      ? Colors.white.withValues(alpha: 0.6)
+                      : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                  fontSize: 10,
+                  fontStyle: FontStyle.italic,
                 ),
-              )),
+              ),
+            )
+          else
+            ...item.events.take(2).map(
+                  (event) => Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: AppTheme.spacingSmall,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Icon with better visibility
+                        Container(
+                          width: 16,
+                          height: 16,
+                          alignment: Alignment.center,
+                          child: Text(
+                            event.icon,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isToday ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Time
+                              Text(
+                                event.time,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: isToday
+                                      ? Colors.white.withValues(alpha: 0.85)
+                                      : theme.colorScheme.onSurfaceVariant,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 1),
+                              // Title
+                              Text(
+                                event.title,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: isToday
+                                      ? Colors.white
+                                      : theme.colorScheme.onSurface,
+                                  fontSize: 11,
+                                  height: 1.3,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+          if (item.events.length > 2)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                '+${item.events.length - 2} бусад',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: isToday
+                      ? Colors.white.withValues(alpha: 0.7)
+                      : theme.colorScheme.primary,
+                  fontSize: 9,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
         ],
       ),
     );

@@ -39,10 +39,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       data: request.toJson(),
     );
 
-    final data = response.data as Map<String, dynamic>;
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
     final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
-    final tokens =
-        AuthTokensModel.fromJson(data['tokens'] as Map<String, dynamic>);
+    final tokens = AuthTokensModel.fromJson(data);
 
     // Save tokens to secure storage
     await _tokenStorage.saveTokens(
@@ -61,10 +61,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       data: request.toJson(),
     );
 
-    final data = response.data as Map<String, dynamic>;
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
     final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
-    final tokens =
-        AuthTokensModel.fromJson(data['tokens'] as Map<String, dynamic>);
+    final tokens = AuthTokensModel.fromJson(data);
 
     // Save tokens to secure storage
     await _tokenStorage.saveTokens(
@@ -89,20 +89,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getCurrentUser() async {
     final response = await _dioClient.get(ApiConstants.me);
-    final data = response.data as Map<String, dynamic>;
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
     return UserModel.fromJson(data['user'] as Map<String, dynamic>);
   }
 
   @override
   Future<AuthTokensModel> refreshToken() async {
-    final refreshToken = await _tokenStorage.getRefreshToken();
+    final currentRefreshToken = await _tokenStorage.getRefreshToken();
 
     final response = await _dioClient.post(
       ApiConstants.refreshToken,
-      data: {'refreshToken': refreshToken},
+      data: {'refreshToken': currentRefreshToken},
     );
 
-    final data = response.data as Map<String, dynamic>;
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'] as Map<String, dynamic>;
     final tokens = AuthTokensModel.fromJson(data);
 
     // Save new tokens

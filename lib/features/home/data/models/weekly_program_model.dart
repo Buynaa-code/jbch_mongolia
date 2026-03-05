@@ -15,8 +15,15 @@ class WeeklyProgramItemModel extends WeeklyProgramItem {
     required this.events,
   }) : super(events: events);
 
-  factory WeeklyProgramItemModel.fromJson(Map<String, dynamic> json) =>
-      _$WeeklyProgramItemModelFromJson(json);
+  factory WeeklyProgramItemModel.fromJson(Map<String, dynamic> json) {
+    final eventsList = json['events'] as List<dynamic>? ?? [];
+    return WeeklyProgramItemModel(
+      dayName: json['dayName'] as String? ?? '',
+      events: eventsList
+          .map((e) => WeeklyEventModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() => _$WeeklyProgramItemModelToJson(this);
 }
@@ -30,8 +37,13 @@ class WeeklyEventModel extends WeeklyEvent {
     required super.icon,
   });
 
-  factory WeeklyEventModel.fromJson(Map<String, dynamic> json) =>
-      _$WeeklyEventModelFromJson(json);
+  factory WeeklyEventModel.fromJson(Map<String, dynamic> json) {
+    return WeeklyEventModel(
+      time: json['time'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      icon: json['icon'] as String? ?? 'event',
+    );
+  }
 
   Map<String, dynamic> toJson() => _$WeeklyEventModelToJson(this);
 }

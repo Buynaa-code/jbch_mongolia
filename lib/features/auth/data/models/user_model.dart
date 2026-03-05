@@ -13,7 +13,8 @@ class UserModel extends User {
     required super.name,
     super.phone,
     super.avatarUrl,
-    required super.createdAt,
+    super.role,
+    super.createdAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +29,7 @@ class UserModel extends User {
       name: user.name,
       phone: user.phone,
       avatarUrl: user.avatarUrl,
+      role: user.role,
       createdAt: user.createdAt,
     );
   }

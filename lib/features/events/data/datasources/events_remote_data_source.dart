@@ -34,9 +34,12 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
   @override
   Future<List<EventModel>> getEvents() async {
     final response = await _dioClient.get(ApiConstants.events);
-    final data = response.data as Map<String, dynamic>;
-    final eventsList = data['events'] as List<dynamic>;
-    return eventsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -44,9 +47,12 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
   @override
   Future<List<EventModel>> getUpcomingEvents() async {
     final response = await _dioClient.get(ApiConstants.upcomingEvents);
-    final data = response.data as Map<String, dynamic>;
-    final eventsList = data['events'] as List<dynamic>;
-    return eventsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -57,9 +63,12 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
       ApiConstants.events,
       queryParameters: {'status': 'past'},
     );
-    final data = response.data as Map<String, dynamic>;
-    final eventsList = data['events'] as List<dynamic>;
-    return eventsList
+    final responseData = response.data as Map<String, dynamic>;
+    final data = responseData['data'];
+    if (data == null || data is! List) {
+      return [];
+    }
+    return data
         .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
@@ -67,8 +76,8 @@ class EventsRemoteDataSourceImpl implements EventsRemoteDataSource {
   @override
   Future<EventModel> getEventById(String id) async {
     final response = await _dioClient.get(ApiConstants.eventById(id));
-    final data = response.data as Map<String, dynamic>;
-    return EventModel.fromJson(data['event'] as Map<String, dynamic>);
+    final responseData = response.data as Map<String, dynamic>;
+    return EventModel.fromJson(responseData['data'] as Map<String, dynamic>);
   }
 
   @override
