@@ -246,9 +246,9 @@ class _FavoriteSongCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.music_note,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onPrimary,
               size: 24,
             ),
           ),

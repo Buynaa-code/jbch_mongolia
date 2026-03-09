@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../domain/entities/sermon.dart';
+import '../../domain/entities/song.dart';
+import '../../domain/entities/verse.dart';
 import '../cubit/library_cubit.dart';
 import '../cubit/library_state.dart';
 import '../widgets/sermon_card.dart';
@@ -160,6 +163,15 @@ class _LibraryPageContentState extends State<_LibraryPageContent>
                         currentlyPlayingSong: state.currentlyPlayingSong,
                         isPlaying: state.isPlaying,
                         onPlayPause: (song) {
+                          if (!song.isPlayable) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Энэ дууны аудио файл олдсонгүй'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            return;
+                          }
                           if (state.currentlyPlayingSong?.id == song.id) {
                             context.read<LibraryCubit>().togglePlayPause();
                           } else {
@@ -176,7 +188,17 @@ class _LibraryPageContentState extends State<_LibraryPageContent>
                       _SermonsTab(
                         sermons: state.filteredSermons,
                         onPlay: (sermon) {
-                          // TODO: Play sermon
+                          if (!sermon.isPlayable) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Энэ номлолын аудио/видео файл олдсонгүй'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            return;
+                          }
+                          // TODO: Implement sermon player
                         },
                         onFavoriteToggle: (id) {
                           context
@@ -210,7 +232,7 @@ class _LibraryPageContentState extends State<_LibraryPageContent>
 }
 
 class _VersesTab extends StatelessWidget {
-  final List verses;
+  final List<Verse> verses;
   final ValueChanged<String> onFavoriteToggle;
 
   const _VersesTab({
@@ -248,11 +270,11 @@ class _VersesTab extends StatelessWidget {
 }
 
 class _SongsTab extends StatelessWidget {
-  final List songs;
-  final dynamic currentlyPlayingSong;
+  final List<Song> songs;
+  final Song? currentlyPlayingSong;
   final bool isPlaying;
-  final ValueChanged onPlayPause;
-  final ValueChanged onSongTap;
+  final ValueChanged<Song> onPlayPause;
+  final ValueChanged<Song> onSongTap;
   final ValueChanged<String> onFavoriteToggle;
 
   const _SongsTab({
@@ -296,8 +318,8 @@ class _SongsTab extends StatelessWidget {
 }
 
 class _SermonsTab extends StatelessWidget {
-  final List sermons;
-  final ValueChanged onPlay;
+  final List<Sermon> sermons;
+  final ValueChanged<Sermon> onPlay;
   final ValueChanged<String> onFavoriteToggle;
 
   const _SermonsTab({

@@ -72,12 +72,24 @@ class AudioPlayerWidget extends StatelessWidget {
               color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
             ),
-            child: imageUrl != null
+            child: imageUrl != null && imageUrl!.isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                     child: Image.network(
                       imageUrl!,
                       fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
                       errorBuilder: (_, __, ___) => Icon(
                         Icons.music_note,
                         color: theme.colorScheme.primary,
@@ -152,12 +164,23 @@ class AudioPlayerWidget extends StatelessWidget {
               ),
             ],
           ),
-          child: imageUrl != null
+          child: imageUrl != null && imageUrl!.isNotEmpty
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(AppTheme.radiusLarge),
                   child: Image.network(
                     imageUrl!,
                     fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                     errorBuilder: (_, __, ___) => Icon(
                       Icons.music_note,
                       size: 80,

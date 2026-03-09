@@ -92,7 +92,10 @@ class _LoginPageState extends State<LoginPage> {
                       if (value == null || value.isEmpty) {
                         return 'И-мэйл хаягаа оруулна уу';
                       }
-                      if (!value.contains('@')) {
+                      final emailRegex = RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+                      );
+                      if (!emailRegex.hasMatch(value)) {
                         return 'Зөв и-мэйл хаяг оруулна уу';
                       }
                       return null;
@@ -139,12 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                       return FilledButton(
                         onPressed: isLoading ? null : _onLoginPressed,
                         child: isLoading
-                            ? const SizedBox(
+                            ? SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                 ),
                               )
                             : const Text('Нэвтрэх'),

@@ -31,6 +31,9 @@ class Song extends Equatable {
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
   }
 
+  /// Returns true if the song has a valid audio URL to play
+  bool get isPlayable => audioUrl != null && audioUrl!.isNotEmpty;
+
   Song copyWith({
     String? id,
     String? title,

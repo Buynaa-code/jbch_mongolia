@@ -68,7 +68,7 @@ class SongCard extends StatelessWidget {
                   ),
                   child: Icon(
                     Icons.music_note,
-                    color: Colors.white.withValues(alpha: 0.8),
+                    color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
                     size: 24,
                   ),
                 ),
@@ -77,12 +77,12 @@ class SongCard extends StatelessWidget {
                     width: 56,
                     height: 56,
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.4),
+                      color: AppColors.shadowDark,
                       borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.equalizer,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       size: 24,
                     ),
                   ),
@@ -159,13 +159,18 @@ class SongCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: onPlayPause,
+              onPressed: song.isPlayable ? onPlayPause : null,
+              tooltip: song.isPlayable ? null : 'Аудио файл байхгүй',
               icon: Icon(
                 isCurrentSong && isPlaying
                     ? Icons.pause_circle_filled
-                    : Icons.play_circle_filled,
+                    : (song.isPlayable
+                        ? Icons.play_circle_filled
+                        : Icons.play_disabled),
                 size: 40,
-                color: theme.colorScheme.primary,
+                color: song.isPlayable
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
               ),
             ),
           ],

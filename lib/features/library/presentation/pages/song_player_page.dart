@@ -30,16 +30,27 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
   }
 
   void _togglePlayPause() {
+    final song = _song;
+    if (song == null || !song.isPlayable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Энэ дууны аудио файл байхгүй байна'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
     setState(() {
       _isPlaying = !_isPlaying;
     });
   }
 
   void _seek(double value) {
-    if (_song == null) return;
+    final song = _song;
+    if (song == null) return;
     setState(() {
       _currentPosition = Duration(
-        milliseconds: (value * _song!.duration.inMilliseconds).round(),
+        milliseconds: (value * song.duration.inMilliseconds).round(),
       );
     });
   }
@@ -48,8 +59,9 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final song = _song;
 
-    if (_song == null) {
+    if (song == null) {
       return Scaffold(
         appBar: AppBar(),
         body: Center(
@@ -153,16 +165,16 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                             ),
                           ],
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.music_note,
                           size: 120,
-                          color: Colors.white,
+                          color: theme.colorScheme.onPrimary,
                         ),
                       ),
                       const SizedBox(height: AppTheme.spacingXLarge),
                       // Song info
                       Text(
-                        _song!.title,
+                        song.title,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -172,7 +184,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                       ),
                       const SizedBox(height: AppTheme.spacingSmall),
                       Text(
-                        _song!.artist,
+                        song.artist,
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -191,7 +203,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                               BorderRadius.circular(AppTheme.radiusSmall),
                         ),
                         child: Text(
-                          _song!.category.displayName,
+                          song.category.displayName,
                           style: theme.textTheme.labelMedium?.copyWith(
                             color: theme.colorScheme.primary,
                           ),
@@ -216,9 +228,9 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                                   .withValues(alpha: 0.1),
                             ),
                             child: Slider(
-                              value: _song!.duration.inMilliseconds > 0
+                              value: song.duration.inMilliseconds > 0
                                   ? (_currentPosition.inMilliseconds /
-                                          _song!.duration.inMilliseconds)
+                                          song.duration.inMilliseconds)
                                       .clamp(0.0, 1.0)
                                   : 0.0,
                               onChanged: _seek,
@@ -236,7 +248,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                                   style: theme.textTheme.bodySmall,
                                 ),
                                 Text(
-                                  _formatDuration(_song!.duration),
+                                  _formatDuration(song.duration),
                                   style: theme.textTheme.bodySmall,
                                 ),
                               ],
@@ -263,23 +275,31 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                           const SizedBox(width: AppTheme.spacingMedium),
                           Container(
                             decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: theme.colorScheme.primary
+                              color: song.isPlayable
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.onSurfaceVariant
                                       .withValues(alpha: 0.3),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                              shape: BoxShape.circle,
+                              boxShadow: song.isPlayable
+                                  ? [
+                                      BoxShadow(
+                                        color: theme.colorScheme.primary
+                                            .withValues(alpha: 0.3),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ]
+                                  : null,
                             ),
                             child: IconButton(
-                              onPressed: _togglePlayPause,
+                              onPressed:
+                                  song.isPlayable ? _togglePlayPause : null,
                               icon: Icon(
-                                _isPlaying
-                                    ? Icons.pause_rounded
-                                    : Icons.play_arrow_rounded,
+                                song.isPlayable
+                                    ? (_isPlaying
+                                        ? Icons.pause_rounded
+                                        : Icons.play_arrow_rounded)
+                                    : Icons.play_disabled,
                               ),
                               iconSize: 48,
                               color: theme.colorScheme.onPrimary,
@@ -331,7 +351,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                 ),
               ),
               // Lyrics panel (if visible)
-              if (_showLyrics && _song!.lyrics != null)
+              if (_showLyrics && song.lyrics != null)
                 Container(
                   height: 150,
                   width: double.infinity,
@@ -345,7 +365,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                   ),
                   child: SingleChildScrollView(
                     child: Text(
-                      _song!.lyrics!,
+                      song.lyrics!,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         height: 1.8,
                       ),

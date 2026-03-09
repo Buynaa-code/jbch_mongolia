@@ -148,10 +148,10 @@ class _SplashPageState extends State<SplashPage>
                             ),
                             borderRadius: BorderRadius.circular(32),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.church,
                             size: 80,
-                            color: Colors.white,
+                            color: theme.colorScheme.onPrimary,
                           ),
                         );
                       },

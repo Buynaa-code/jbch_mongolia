@@ -99,17 +99,11 @@ class _EventDetailContent extends StatelessWidget {
         }
 
         if (state is EventsLoaded) {
-          // Find event in loaded events
-          Event? event;
-          try {
-            event = state.upcomingEvents.firstWhere((e) => e.id == eventId);
-          } catch (_) {
-            try {
-              event = state.pastEvents.firstWhere((e) => e.id == eventId);
-            } catch (_) {
-              event = null;
-            }
-          }
+          // Find event in loaded events using null-safe approach
+          final event = state.upcomingEvents
+                  .where((e) => e.id == eventId)
+                  .firstOrNull ??
+              state.pastEvents.where((e) => e.id == eventId).firstOrNull;
 
           if (event == null) {
             return Scaffold(
@@ -171,14 +165,14 @@ class _EventDetailContent extends StatelessWidget {
                                 vertical: AppTheme.spacingXSmall,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
+                                color: theme.colorScheme.onPrimary.withValues(alpha: 0.2),
                                 borderRadius:
                                     BorderRadius.circular(AppTheme.radiusSmall),
                               ),
                               child: Text(
                                 event.type.displayName,
                                 style: theme.textTheme.labelMedium?.copyWith(
-                                  color: Colors.white,
+                                  color: theme.colorScheme.onPrimary,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -342,7 +336,7 @@ class _EventDetailContent extends StatelessWidget {
                               onPressed: () {
                                 context
                                     .read<EventsCubit>()
-                                    .registerForEvent(event!.id);
+                                    .registerForEvent(eventId);
                               },
                               icon: Icon(
                                 event.isRegistered

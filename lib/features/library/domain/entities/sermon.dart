@@ -61,6 +61,11 @@ class Sermon extends Equatable {
     return '${date.year} оны ${months[date.month - 1]}ын ${date.day}';
   }
 
+  /// Returns true if the sermon has a valid audio or video URL to play
+  bool get isPlayable =>
+      (audioUrl != null && audioUrl!.isNotEmpty) ||
+      (videoUrl != null && videoUrl!.isNotEmpty);
+
   Sermon copyWith({
     String? id,
     String? title,

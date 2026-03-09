@@ -287,7 +287,7 @@ class _ProfileHeader extends StatelessWidget {
           // Avatar
           CircleAvatar(
             radius: 36,
-            backgroundColor: Colors.white.withValues(alpha: 0.2),
+            backgroundColor: theme.colorScheme.onPrimary.withValues(alpha: 0.2),
             child: imageUrl != null
                 ? ClipOval(
                     child: Image.network(
@@ -296,7 +296,7 @@ class _ProfileHeader extends StatelessWidget {
                       errorBuilder: (_, __, ___) => Text(
                         name.isNotEmpty ? name[0].toUpperCase() : '?',
                         style: theme.textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
+                          color: theme.colorScheme.onPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -305,7 +305,7 @@ class _ProfileHeader extends StatelessWidget {
                 : Text(
                     name.isNotEmpty ? name[0].toUpperCase() : '?',
                     style: theme.textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
+                      color: theme.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -319,7 +319,7 @@ class _ProfileHeader extends StatelessWidget {
                 Text(
                   name,
                   style: theme.textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
+                    color: theme.colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -327,14 +327,14 @@ class _ProfileHeader extends StatelessWidget {
                 Text(
                   email,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.9),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   'Гишүүн: $memberSince-аас',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -346,7 +346,7 @@ class _ProfileHeader extends StatelessWidget {
               // TODO: Edit profile
             },
             icon: const Icon(Icons.edit_outlined),
-            color: Colors.white,
+            color: theme.colorScheme.onPrimary,
           ),
         ],
       ),

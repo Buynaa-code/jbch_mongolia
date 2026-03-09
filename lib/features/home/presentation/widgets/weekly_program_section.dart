@@ -131,15 +131,15 @@ class _DayCard extends StatelessWidget {
                   offset: const Offset(0, 4),
                 ),
               ]
-            : [
-                BoxShadow(
-                  color: isDark
-                      ? Colors.transparent
-                      : Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 6,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+            : (isDark
+                ? null
+                : [
+                    BoxShadow(
+                      color: AppColors.shadowLight,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +151,7 @@ class _DayCard extends StatelessWidget {
                 child: Text(
                   item.dayName,
                   style: theme.textTheme.titleSmall?.copyWith(
-                    color: isToday ? Colors.white : theme.colorScheme.onSurface,
+                    color: isToday ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -169,13 +169,13 @@ class _DayCard extends StatelessWidget {
                 vertical: 3,
               ),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.25),
+                color: theme.colorScheme.onPrimary.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
               ),
               child: Text(
                 'Өнөөдөр',
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: Colors.white,
+                  color: theme.colorScheme.onPrimary,
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                 ),
@@ -192,7 +192,7 @@ class _DayCard extends StatelessWidget {
                 'Арга хэмжээ байхгүй',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: isToday
-                      ? Colors.white.withValues(alpha: 0.6)
+                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.6)
                       : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                   fontSize: 10,
                   fontStyle: FontStyle.italic,
@@ -217,7 +217,7 @@ class _DayCard extends StatelessWidget {
                             event.icon,
                             style: TextStyle(
                               fontSize: 13,
-                              color: isToday ? Colors.white : null,
+                              color: isToday ? theme.colorScheme.onPrimary : null,
                             ),
                           ),
                         ),
@@ -231,7 +231,7 @@ class _DayCard extends StatelessWidget {
                                 event.time,
                                 style: theme.textTheme.labelSmall?.copyWith(
                                   color: isToday
-                                      ? Colors.white.withValues(alpha: 0.85)
+                                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.85)
                                       : theme.colorScheme.onSurfaceVariant,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w500,
@@ -243,7 +243,7 @@ class _DayCard extends StatelessWidget {
                                 event.title,
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: isToday
-                                      ? Colors.white
+                                      ? theme.colorScheme.onPrimary
                                       : theme.colorScheme.onSurface,
                                   fontSize: 11,
                                   height: 1.3,
@@ -266,7 +266,7 @@ class _DayCard extends StatelessWidget {
                 '+${item.events.length - 2} бусад',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: isToday
-                      ? Colors.white.withValues(alpha: 0.7)
+                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
                       : theme.colorScheme.primary,
                   fontSize: 9,
                   fontWeight: FontWeight.w600,

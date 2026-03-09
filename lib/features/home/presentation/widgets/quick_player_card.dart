@@ -30,7 +30,8 @@ class QuickPlayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final hasCurrentSong = currentSong != null;
+    final song = currentSong;
+    final hasCurrentSong = song != null;
     final hasRecentSongs = recentSongs.isNotEmpty;
 
     return AppCard(
@@ -125,9 +126,9 @@ class QuickPlayerCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.music_note,
-                          color: Colors.white,
+                          color: theme.colorScheme.onPrimary,
                           size: 28,
                         ),
                       ),
@@ -139,7 +140,7 @@ class QuickPlayerCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              currentSong!.title,
+                              song.title,
                               style: theme.textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -148,7 +149,7 @@ class QuickPlayerCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              currentSong!.artist,
+                              song.artist,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
@@ -161,21 +162,23 @@ class QuickPlayerCard extends StatelessWidget {
                       const SizedBox(width: AppTheme.spacingSmall),
 
                       // Play/Pause button - large touch target for thumb zone
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: onPlayPause,
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusLarge),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Icon(
-                              isPlaying
-                                  ? Icons.pause_circle_filled
-                                  : Icons.play_circle_filled,
-                              size: 48,
-                              color: theme.colorScheme.primary,
-                            ),
+                      InkWell(
+                        onTap: song.isPlayable ? onPlayPause : null,
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.radiusLarge),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Icon(
+                            song.isPlayable
+                                ? (isPlaying
+                                    ? Icons.pause_circle_filled
+                                    : Icons.play_circle_filled)
+                                : Icons.play_disabled,
+                            size: 48,
+                            color: song.isPlayable
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurfaceVariant
+                                    .withValues(alpha: 0.3),
                           ),
                         ),
                       ),
@@ -189,9 +192,9 @@ class QuickPlayerCard extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: LinearProgressIndicator(
-                          value: currentSong!.duration.inMilliseconds > 0
+                          value: song.duration.inMilliseconds > 0
                               ? currentPosition.inMilliseconds /
-                                  currentSong!.duration.inMilliseconds
+                                  song.duration.inMilliseconds
                               : 0,
                           backgroundColor:
                               theme.colorScheme.primary.withValues(alpha: 0.15),
@@ -213,7 +216,7 @@ class QuickPlayerCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _formatDuration(currentSong!.duration),
+                            _formatDuration(song.duration),
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                               fontSize: 11,
@@ -307,7 +310,7 @@ class _RecentSongTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Material(
-      color: Colors.transparent,
+      type: MaterialType.transparency,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
@@ -396,7 +399,7 @@ class _RecentSongTile extends StatelessWidget {
               // Play indicator icon
               const SizedBox(width: AppTheme.spacingSmall),
               Icon(
-                Icons.play_arrow,
+                song.isPlayable ? Icons.play_arrow : Icons.play_disabled,
                 size: 20,
                 color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
               ),

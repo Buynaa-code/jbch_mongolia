@@ -192,9 +192,12 @@ class SermonCard extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: onPlay,
-                  icon: const Icon(Icons.play_arrow, size: 18),
-                  label: const Text('Тоглуулах'),
+                  onPressed: sermon.isPlayable ? onPlay : null,
+                  icon: Icon(
+                    sermon.isPlayable ? Icons.play_arrow : Icons.play_disabled,
+                    size: 18,
+                  ),
+                  label: Text(sermon.isPlayable ? 'Тоглуулах' : 'Файл байхгүй'),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                       vertical: AppTheme.spacingSmall,

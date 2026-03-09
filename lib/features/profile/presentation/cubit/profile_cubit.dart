@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../library/domain/entities/song.dart';
+import '../../../library/domain/entities/verse.dart';
 import '../../domain/usecases/get_favorites.dart';
 import '../../domain/usecases/get_profile.dart';
 import '../../domain/usecases/settings_usecases.dart';
@@ -51,34 +53,37 @@ class ProfileCubit extends Cubit<ProfileState> {
       // Load profile from API
       final profileResult = await _getProfile();
 
-      await profileResult.fold(
-        (failure) async {
+      final user = profileResult.fold(
+        (failure) {
           emit(ProfileError(failure.message));
+          return null;
         },
-        (user) async {
-          // Load favorites
-          final songsResult = await _getFavoriteSongs();
-          final versesResult = await _getFavoriteVerses();
-
-          final favoriteSongs = songsResult.fold(
-            (_) => <dynamic>[],
-            (songs) => songs,
-          );
-
-          final favoriteVerses = versesResult.fold(
-            (_) => <dynamic>[],
-            (verses) => verses,
-          );
-
-          emit(ProfileLoaded(
-            user: user,
-            favoriteVerses: List.from(favoriteVerses),
-            favoriteSongs: List.from(favoriteSongs),
-            themeMode: themeMode,
-            notificationsEnabled: notificationsEnabled,
-          ));
-        },
+        (user) => user,
       );
+
+      if (user == null) return;
+
+      // Load favorites
+      final songsResult = await _getFavoriteSongs();
+      final versesResult = await _getFavoriteVerses();
+
+      final favoriteSongs = songsResult.fold(
+        (_) => <Song>[],
+        (songs) => songs,
+      );
+
+      final favoriteVerses = versesResult.fold(
+        (_) => <Verse>[],
+        (verses) => verses,
+      );
+
+      emit(ProfileLoaded(
+        user: user,
+        favoriteVerses: favoriteVerses,
+        favoriteSongs: favoriteSongs,
+        themeMode: themeMode,
+        notificationsEnabled: notificationsEnabled,
+      ));
     } catch (e) {
       emit(ProfileError('Профайл ачаалахад алдаа гарлаа: $e'));
     }
