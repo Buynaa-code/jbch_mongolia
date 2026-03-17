@@ -35,6 +35,8 @@ final class LibraryLoaded extends LibraryState {
   final bool isPlaying;
   final Duration currentPosition;
   final String searchQuery;
+  /// Temporary error message for operations like toggle favorite
+  final String? actionError;
 
   const LibraryLoaded({
     required this.verses,
@@ -45,6 +47,7 @@ final class LibraryLoaded extends LibraryState {
     this.isPlaying = false,
     this.currentPosition = Duration.zero,
     this.searchQuery = '',
+    this.actionError,
   });
 
   List<Verse> get filteredVerses {
@@ -95,6 +98,8 @@ final class LibraryLoaded extends LibraryState {
     bool? isPlaying,
     Duration? currentPosition,
     String? searchQuery,
+    String? actionError,
+    bool clearActionError = false,
   }) {
     return LibraryLoaded(
       verses: verses ?? this.verses,
@@ -105,6 +110,7 @@ final class LibraryLoaded extends LibraryState {
       isPlaying: isPlaying ?? this.isPlaying,
       currentPosition: currentPosition ?? this.currentPosition,
       searchQuery: searchQuery ?? this.searchQuery,
+      actionError: clearActionError ? null : (actionError ?? this.actionError),
     );
   }
 
@@ -118,6 +124,7 @@ final class LibraryLoaded extends LibraryState {
         isPlaying,
         currentPosition,
         searchQuery,
+        actionError,
       ];
 }
 

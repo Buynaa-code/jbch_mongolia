@@ -3,13 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/di/injection.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/widgets/section_header.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
+import '../widgets/announcement_carousel_section.dart';
 import '../widgets/memory_verse_card.dart';
 import '../widgets/quick_player_card.dart';
 import '../widgets/seminar_carousel_section.dart';
+import '../widgets/sunday_schedule_section.dart';
 import '../widgets/weekly_program_section.dart';
 
 /// Home page displaying church overview
@@ -75,6 +78,37 @@ class _HomePageContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Announcements carousel - онцгой зарлал
+                    if (state.announcements.isNotEmpty) ...[
+                      const SectionHeader(
+                        title: 'Онцгой зарлал',
+                      ),
+                      const SizedBox(height: AppTheme.spacingSmall),
+                      AnnouncementCarouselSection(
+                        announcements: state.announcements,
+                        onTap: (announcement) {
+                          if (announcement.actionUrl != null) {
+                            context.push(announcement.actionUrl!);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: AppTheme.spacingLarge),
+                    ],
+
+                    // Sunday schedule section - энэ долоо хоногийн хуваарь
+                    if (state.currentSundaySchedule != null ||
+                        state.nextSundaySchedule != null) ...[
+                      const SectionHeader(
+                        title: 'Ням гаргийн үйлчлэл',
+                      ),
+                      const SizedBox(height: AppTheme.spacingSmall),
+                      SundayScheduleSection(
+                        currentSchedule: state.currentSundaySchedule,
+                        nextSchedule: state.nextSundaySchedule,
+                      ),
+                      const SizedBox(height: AppTheme.spacingLarge),
+                    ],
+
                     // Seminars carousel with header
                     if (state.seminars.isNotEmpty) ...[
                       const SectionHeader(
@@ -184,8 +218,8 @@ class _LoadingSkeleton extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final shimmerColor = isDark
-        ? Colors.white.withValues(alpha: 0.1)
-        : Colors.black.withValues(alpha: 0.06);
+        ? AppColors.onSurfaceDark.withValues(alpha: 0.1)
+        : AppColors.onSurfaceLight.withValues(alpha: 0.06);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppTheme.spacingMedium),

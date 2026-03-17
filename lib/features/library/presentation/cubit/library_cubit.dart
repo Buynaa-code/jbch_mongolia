@@ -34,53 +34,36 @@ class LibraryCubit extends Cubit<LibraryState> {
     emit(const LibraryLoading());
 
     try {
-      // Load all data separately to maintain type safety
-      final versesResult = await _getVersesUseCase();
-      final songsResult = await _getSongsUseCase();
-      final sermonsResult = await _getSermonsUseCase();
+      // Load all data in parallel for better performance
+      final results = await Future.wait([
+        _getVersesUseCase(),
+        _getSongsUseCase(),
+        _getSermonsUseCase(),
+      ]);
 
-      // Check for failures
-      String? errorMessage;
-      versesResult.fold(
-        (failure) => errorMessage = failure.message,
-        (_) {},
-      );
-      if (errorMessage != null) {
-        emit(LibraryError(errorMessage!));
-        return;
-      }
+      final versesResult = results[0];
+      final songsResult = results[1];
+      final sermonsResult = results[2];
 
-      songsResult.fold(
-        (failure) => errorMessage = failure.message,
-        (_) {},
-      );
-      if (errorMessage != null) {
-        emit(LibraryError(errorMessage!));
-        return;
-      }
-
-      sermonsResult.fold(
-        (failure) => errorMessage = failure.message,
-        (_) {},
-      );
-      if (errorMessage != null) {
-        emit(LibraryError(errorMessage!));
-        return;
-      }
-
-      // Get the data with proper types
+      // Get data with proper types - don't block on individual failures
       final List<Verse> verses = versesResult.fold(
         (_) => <Verse>[],
-        (data) => data,
+        (data) => data as List<Verse>,
       );
       final List<Song> songs = songsResult.fold(
         (_) => <Song>[],
-        (data) => data,
+        (data) => data as List<Song>,
       );
       final List<Sermon> sermons = sermonsResult.fold(
         (_) => <Sermon>[],
-        (data) => data,
+        (data) => data as List<Sermon>,
       );
+
+      // Only show error if ALL data failed to load
+      if (verses.isEmpty && songs.isEmpty && sermons.isEmpty) {
+        emit(const LibraryError('Номын сан ачаалахад алдаа гарлаа. Интернэт холболтоо шалгана уу.'));
+        return;
+      }
 
       emit(LibraryLoaded(
         verses: verses,
@@ -145,7 +128,9 @@ class LibraryCubit extends Cubit<LibraryState> {
 
     result.fold(
       (failure) {
-        // Show error but don't change state
+        emit(currentState.copyWith(
+          actionError: 'Дуртай хэсэгт нэмэхэд алдаа гарлаа',
+        ));
       },
       (updatedVerse) {
         final updatedVerses = currentState.verses.map((v) {
@@ -154,7 +139,7 @@ class LibraryCubit extends Cubit<LibraryState> {
           }
           return v;
         }).toList();
-        emit(currentState.copyWith(verses: updatedVerses));
+        emit(currentState.copyWith(verses: updatedVerses, clearActionError: true));
       },
     );
   }
@@ -168,7 +153,9 @@ class LibraryCubit extends Cubit<LibraryState> {
 
     result.fold(
       (failure) {
-        // Show error but don't change state
+        emit(currentState.copyWith(
+          actionError: 'Дуртай хэсэгт нэмэхэд алдаа гарлаа',
+        ));
       },
       (updatedSong) {
         final updatedSongs = currentState.songs.map((s) {
@@ -177,7 +164,7 @@ class LibraryCubit extends Cubit<LibraryState> {
           }
           return s;
         }).toList();
-        emit(currentState.copyWith(songs: updatedSongs));
+        emit(currentState.copyWith(songs: updatedSongs, clearActionError: true));
       },
     );
   }
@@ -191,7 +178,9 @@ class LibraryCubit extends Cubit<LibraryState> {
 
     result.fold(
       (failure) {
-        // Show error but don't change state
+        emit(currentState.copyWith(
+          actionError: 'Дуртай хэсэгт нэмэхэд алдаа гарлаа',
+        ));
       },
       (updatedSermon) {
         final updatedSermons = currentState.sermons.map((s) {
@@ -200,9 +189,17 @@ class LibraryCubit extends Cubit<LibraryState> {
           }
           return s;
         }).toList();
-        emit(currentState.copyWith(sermons: updatedSermons));
+        emit(currentState.copyWith(sermons: updatedSermons, clearActionError: true));
       },
     );
+  }
+
+  /// Clear action error
+  void clearActionError() {
+    final currentState = state;
+    if (currentState is LibraryLoaded) {
+      emit(currentState.copyWith(clearActionError: true));
+    }
   }
 
   /// Refresh library data

@@ -139,18 +139,31 @@ class _LoginPageState extends State<LoginPage> {
                   BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
                       final isLoading = state is AuthLoading;
-                      return FilledButton(
-                        onPressed: isLoading ? null : _onLoginPressed,
-                        child: isLoading
-                            ? SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                              )
-                            : const Text('Нэвтрэх'),
+                      final theme = Theme.of(context);
+                      return SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: FilledButton(
+                          onPressed: isLoading ? null : _onLoginPressed,
+                          style: FilledButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary,
+                            foregroundColor: theme.colorScheme.onPrimary,
+                            elevation: 2,
+                            textStyle: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          child: isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppColors.onPrimary,
+                                  ),
+                                )
+                              : const Text('Нэвтрэх'),
+                        ),
                       );
                     },
                   ),
@@ -168,17 +181,6 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text('Бүртгүүлэх'),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 24),
-                  // Skip login button
-                  TextButton(
-                    onPressed: () => context.go('/home'),
-                    child: Text(
-                      'Нэвтрэхгүйгээр үргэлжлүүлэх',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.onSurfaceVariantLight,
-                      ),
-                    ),
                   ),
                 ],
               ),
