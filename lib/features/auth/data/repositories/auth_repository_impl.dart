@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
-import '../../../../core/network/token_storage.dart';
+import '../../../../core/network/supabase_service.dart';
 import '../../domain/entities/auth_tokens.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -15,12 +15,12 @@ import '../models/login_request.dart';
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final NetworkInfo _networkInfo;
-  final TokenStorage _tokenStorage;
+  final SupabaseService _supabaseService;
 
   AuthRepositoryImpl(
     this._remoteDataSource,
     this._networkInfo,
-    this._tokenStorage,
+    this._supabaseService,
   );
 
   @override
@@ -108,7 +108,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    return await _tokenStorage.hasTokens();
+    return _supabaseService.isAuthenticated;
   }
 
   @override

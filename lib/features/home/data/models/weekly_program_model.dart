@@ -1,19 +1,15 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import '../../domain/entities/weekly_program.dart';
 
-part 'weekly_program_model.g.dart';
-
 /// Weekly program item model with JSON serialization
-@JsonSerializable()
 class WeeklyProgramItemModel extends WeeklyProgramItem {
-  @override
-  final List<WeeklyEventModel> events;
-
   const WeeklyProgramItemModel({
     required super.dayName,
-    required this.events,
+    required List<WeeklyEventModel> events,
   }) : super(events: events);
+
+  /// Typed getter for events as WeeklyEventModel list
+  List<WeeklyEventModel> get typedEvents =>
+      events.cast<WeeklyEventModel>().toList();
 
   factory WeeklyProgramItemModel.fromJson(Map<String, dynamic> json) {
     final eventsList = json['events'] as List<dynamic>? ?? [];
@@ -25,11 +21,13 @@ class WeeklyProgramItemModel extends WeeklyProgramItem {
     );
   }
 
-  Map<String, dynamic> toJson() => _$WeeklyProgramItemModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'dayName': dayName,
+        'events': typedEvents.map((e) => e.toJson()).toList(),
+      };
 }
 
 /// Weekly event model with JSON serialization
-@JsonSerializable()
 class WeeklyEventModel extends WeeklyEvent {
   const WeeklyEventModel({
     required super.time,
@@ -45,5 +43,9 @@ class WeeklyEventModel extends WeeklyEvent {
     );
   }
 
-  Map<String, dynamic> toJson() => _$WeeklyEventModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'time': time,
+        'title': title,
+        'icon': icon,
+      };
 }

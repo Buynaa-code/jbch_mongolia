@@ -5,7 +5,7 @@ import '../../domain/entities/song.dart';
 part 'song_model.g.dart';
 
 /// Song model with JSON serialization
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class SongModel extends Song {
   const SongModel({
     required super.id,

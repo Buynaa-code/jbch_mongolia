@@ -1,11 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import '../../domain/entities/sermon.dart';
 
-part 'sermon_model.g.dart';
-
 /// Sermon model with JSON serialization
-@JsonSerializable()
 class SermonModel extends Sermon {
   const SermonModel({
     required super.id,
@@ -43,7 +38,27 @@ class SermonModel extends Sermon {
     );
   }
 
-  Map<String, dynamic> toJson() => _$SermonModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'preacher': preacher,
+        'date': date.toIso8601String(),
+        'durationMs': duration.inMilliseconds,
+        'audioUrl': audioUrl,
+        'videoUrl': videoUrl,
+        'thumbnailUrl': thumbnailUrl,
+        'description': description,
+        'bibleReference': bibleReference,
+        'isFavorite': isFavorite,
+        'series': series != null
+            ? SermonSeriesModel(
+                id: series!.id,
+                name: series!.name,
+                description: series!.description,
+                imageUrl: series!.imageUrl,
+              ).toJson()
+            : null,
+      };
 
   factory SermonModel.fromEntity(Sermon sermon) {
     return SermonModel(
@@ -64,7 +79,6 @@ class SermonModel extends Sermon {
 }
 
 /// Sermon series model with JSON serialization
-@JsonSerializable()
 class SermonSeriesModel extends SermonSeries {
   const SermonSeriesModel({
     required super.id,
@@ -82,5 +96,10 @@ class SermonSeriesModel extends SermonSeries {
     );
   }
 
-  Map<String, dynamic> toJson() => _$SermonSeriesModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'imageUrl': imageUrl,
+      };
 }

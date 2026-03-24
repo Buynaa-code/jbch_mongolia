@@ -4,7 +4,7 @@ import '../../domain/entities/user_profile.dart';
 
 part 'user_profile_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class UserProfileModel extends UserProfile {
   const UserProfileModel({
     required super.id,

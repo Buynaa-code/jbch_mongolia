@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
+import '../../../../core/network/supabase_service.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/get_current_user_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
@@ -16,6 +20,9 @@ class AuthCubit extends Cubit<AuthState> {
   final LogoutUseCase _logoutUseCase;
   final GetCurrentUserUseCase _getCurrentUserUseCase;
   final AuthRepository _authRepository;
+  final SupabaseService _supabaseService;
+
+  StreamSubscription<supabase.AuthState>? _authStateSubscription;
 
   AuthCubit(
     this._loginUseCase,
@@ -23,7 +30,40 @@ class AuthCubit extends Cubit<AuthState> {
     this._logoutUseCase,
     this._getCurrentUserUseCase,
     this._authRepository,
-  ) : super(const AuthInitial());
+    this._supabaseService,
+  ) : super(const AuthInitial()) {
+    _listenToAuthChanges();
+  }
+
+  /// Listen to Supabase auth state changes
+  void _listenToAuthChanges() {
+    _authStateSubscription = _supabaseService.authStateChanges.listen((authState) {
+      final mappedState = _mapAuthState(authState);
+      if (!isClosed && mappedState != null) {
+        emit(mappedState);
+      }
+    });
+  }
+
+  /// Map Supabase AuthState to our AuthState
+  AuthState? _mapAuthState(supabase.AuthState authState) {
+    switch (authState.event) {
+      case supabase.AuthChangeEvent.signedIn:
+      case supabase.AuthChangeEvent.tokenRefreshed:
+        // Will be updated by checkAuthStatus
+        return null;
+      case supabase.AuthChangeEvent.signedOut:
+        return const AuthUnauthenticated();
+      default:
+        return null;
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _authStateSubscription?.cancel();
+    return super.close();
+  }
 
   /// Check if user is already logged in
   Future<void> checkAuthStatus() async {

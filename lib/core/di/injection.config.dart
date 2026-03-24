@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -8,269 +9,291 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:connectivity_plus/connectivity_plus.dart' as _i3;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i4;
-import 'package:get_it/get_it.dart' as _i1;
-import 'package:injectable/injectable.dart' as _i2;
-import 'package:shared_preferences/shared_preferences.dart' as _i50;
+import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../features/auth/data/datasources/auth_remote_data_source.dart'
-    as _i9;
+    as _i107;
+import '../../features/auth/data/datasources/supabase_auth_data_source.dart'
+    as _i857;
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
-    as _i11;
-import '../../features/auth/domain/repositories/auth_repository.dart' as _i10;
+    as _i153;
+import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/usecases/get_current_user_usecase.dart'
-    as _i12;
-import '../../features/auth/domain/usecases/login_usecase.dart' as _i13;
-import '../../features/auth/domain/usecases/logout_usecase.dart' as _i14;
-import '../../features/auth/domain/usecases/register_usecase.dart' as _i15;
-import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i16;
-import '../../features/events/data/datasources/events_remote_data_source.dart'
     as _i17;
+import '../../features/auth/domain/usecases/login_usecase.dart' as _i188;
+import '../../features/auth/domain/usecases/logout_usecase.dart' as _i48;
+import '../../features/auth/domain/usecases/register_usecase.dart' as _i941;
+import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/events/data/datasources/events_remote_data_source.dart'
+    as _i370;
 import '../../features/events/data/repositories/events_repository_impl.dart'
-    as _i19;
+    as _i560;
 import '../../features/events/domain/repositories/events_repository.dart'
-    as _i18;
-import '../../features/events/domain/usecases/get_events.dart' as _i20;
-import '../../features/events/domain/usecases/get_upcoming_events.dart' as _i21;
-import '../../features/events/domain/usecases/register_for_event.dart' as _i22;
-import '../../features/events/presentation/cubit/events_cubit.dart' as _i23;
+    as _i967;
+import '../../features/events/domain/usecases/get_events.dart' as _i286;
+import '../../features/events/domain/usecases/get_upcoming_events.dart'
+    as _i292;
+import '../../features/events/domain/usecases/register_for_event.dart' as _i791;
+import '../../features/events/presentation/cubit/events_cubit.dart' as _i496;
 import '../../features/home/data/datasources/home_remote_data_source.dart'
-    as _i32;
+    as _i362;
 import '../../features/home/data/repositories/home_repository_impl.dart'
-    as _i34;
-import '../../features/home/domain/repositories/home_repository.dart' as _i33;
-import '../../features/home/domain/usecases/get_home_data.dart' as _i35;
-import '../../features/home/presentation/cubit/home_cubit.dart' as _i36;
+    as _i76;
+import '../../features/home/domain/repositories/home_repository.dart' as _i0;
+import '../../features/home/domain/usecases/get_home_data.dart' as _i453;
+import '../../features/home/presentation/cubit/home_cubit.dart' as _i9;
 import '../../features/library/data/datasources/library_remote_data_source.dart'
-    as _i24;
+    as _i676;
 import '../../features/library/data/repositories/library_repository_impl.dart'
-    as _i26;
+    as _i912;
 import '../../features/library/domain/repositories/library_repository.dart'
-    as _i25;
-import '../../features/library/domain/usecases/get_sermons.dart' as _i27;
-import '../../features/library/domain/usecases/get_songs.dart' as _i28;
-import '../../features/library/domain/usecases/get_verses.dart' as _i29;
-import '../../features/library/domain/usecases/toggle_favorite.dart' as _i30;
-import '../../features/library/presentation/cubit/library_cubit.dart' as _i31;
+    as _i810;
+import '../../features/library/domain/usecases/get_sermons.dart' as _i1026;
+import '../../features/library/domain/usecases/get_songs.dart' as _i990;
+import '../../features/library/domain/usecases/get_verses.dart' as _i73;
+import '../../features/library/domain/usecases/toggle_favorite.dart' as _i313;
+import '../../features/library/presentation/cubit/library_cubit.dart' as _i196;
 import '../../features/profile/data/datasources/profile_local_data_source.dart'
-    as _i40;
+    as _i439;
 import '../../features/profile/data/datasources/profile_remote_data_source.dart'
-    as _i41;
+    as _i847;
 import '../../features/profile/data/repositories/profile_repository_impl.dart'
-    as _i43;
+    as _i334;
 import '../../features/profile/domain/repositories/profile_repository.dart'
-    as _i42;
-import '../../features/profile/domain/usecases/get_favorites.dart' as _i44;
-import '../../features/profile/domain/usecases/get_profile.dart' as _i45;
-import '../../features/profile/domain/usecases/settings_usecases.dart' as _i46;
-import '../../features/profile/domain/usecases/update_profile.dart' as _i47;
-import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i48;
-import '../network/dio_client.dart' as _i6;
-import '../network/network_info.dart' as _i5;
-import '../network/token_storage.dart' as _i7;
-import 'injection.dart' as _i8;
+    as _i894;
+import '../../features/profile/domain/usecases/get_favorites.dart' as _i543;
+import '../../features/profile/domain/usecases/get_profile.dart' as _i72;
+import '../../features/profile/domain/usecases/settings_usecases.dart' as _i501;
+import '../../features/profile/domain/usecases/update_profile.dart' as _i78;
+import '../../features/profile/presentation/cubit/profile_cubit.dart' as _i36;
+import '../network/dio_client.dart' as _i667;
+import '../network/network_info.dart' as _i932;
+import '../network/supabase_service.dart' as _i658;
+import '../network/token_storage.dart' as _i964;
+import 'injection.dart' as _i464;
 
-extension GetItInjectableX on _i1.GetIt {
+extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  Future<_i1.GetIt> init({
+  Future<_i174.GetIt> init({
     String? environment,
-    _i2.EnvironmentFilter? environmentFilter,
+    _i526.EnvironmentFilter? environmentFilter,
   }) async {
-    final gh = _i2.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-
-    // Third-party dependencies
-    gh.lazySingleton<_i3.Connectivity>(() => registerModule.connectivity);
-    gh.lazySingleton<_i4.FlutterSecureStorage>(
-        () => registerModule.secureStorage);
-
-    // SharedPreferences - async registration
-    final sharedPreferences = await _i50.SharedPreferences.getInstance();
-    gh.lazySingleton<_i50.SharedPreferences>(() => sharedPreferences);
-
-    // Core - Network
-    gh.lazySingleton<_i5.NetworkInfo>(
-        () => _i5.NetworkInfoImpl(gh<_i3.Connectivity>()));
-    gh.lazySingleton<_i7.TokenStorage>(
-        () => _i7.TokenStorage(gh<_i4.FlutterSecureStorage>()));
-    gh.lazySingleton<_i6.DioClient>(
-        () => _i6.DioClient(gh<_i7.TokenStorage>()));
-
-    // Auth - Data Sources
-    gh.lazySingleton<_i9.AuthRemoteDataSource>(() =>
-        _i9.AuthRemoteDataSourceImpl(
-            gh<_i6.DioClient>(), gh<_i7.TokenStorage>()));
-
-    // Auth - Repositories
-    gh.lazySingleton<_i10.AuthRepository>(() => _i11.AuthRepositoryImpl(
-          gh<_i9.AuthRemoteDataSource>(),
-          gh<_i5.NetworkInfo>(),
-          gh<_i7.TokenStorage>(),
-        ));
-
-    // Auth - Use Cases
-    gh.lazySingleton<_i12.GetCurrentUserUseCase>(
-        () => _i12.GetCurrentUserUseCase(gh<_i10.AuthRepository>()));
-    gh.lazySingleton<_i13.LoginUseCase>(
-        () => _i13.LoginUseCase(gh<_i10.AuthRepository>()));
-    gh.lazySingleton<_i14.LogoutUseCase>(
-        () => _i14.LogoutUseCase(gh<_i10.AuthRepository>()));
-    gh.lazySingleton<_i15.RegisterUseCase>(
-        () => _i15.RegisterUseCase(gh<_i10.AuthRepository>()));
-
-    // Auth - Cubit
-    gh.factory<_i16.AuthCubit>(() => _i16.AuthCubit(
-          gh<_i13.LoginUseCase>(),
-          gh<_i15.RegisterUseCase>(),
-          gh<_i14.LogoutUseCase>(),
-          gh<_i12.GetCurrentUserUseCase>(),
-          gh<_i10.AuthRepository>(),
-        ));
-
-    // Events - Data Sources
-    gh.lazySingleton<_i17.EventsRemoteDataSource>(
-        () => _i17.EventsRemoteDataSourceImpl(gh<_i6.DioClient>()));
-
-    // Events - Repositories
-    gh.lazySingleton<_i18.EventsRepository>(() => _i19.EventsRepositoryImpl(
-          gh<_i17.EventsRemoteDataSource>(),
-          gh<_i5.NetworkInfo>(),
-        ));
-
-    // Events - Use Cases
-    gh.lazySingleton<_i20.GetEventsUseCase>(
-        () => _i20.GetEventsUseCase(gh<_i18.EventsRepository>()));
-    gh.lazySingleton<_i21.GetUpcomingEventsUseCase>(
-        () => _i21.GetUpcomingEventsUseCase(gh<_i18.EventsRepository>()));
-    gh.lazySingleton<_i22.RegisterForEventUseCase>(
-        () => _i22.RegisterForEventUseCase(gh<_i18.EventsRepository>()));
-
-    // Events - Cubit
-    gh.factory<_i23.EventsCubit>(() => _i23.EventsCubit(
-          gh<_i20.GetEventsUseCase>(),
-          gh<_i21.GetUpcomingEventsUseCase>(),
-          gh<_i22.RegisterForEventUseCase>(),
-        ));
-
-    // Library - Data Sources
-    gh.lazySingleton<_i24.LibraryRemoteDataSource>(
-        () => _i24.LibraryRemoteDataSourceImpl(gh<_i6.DioClient>()));
-
-    // Library - Repositories
-    gh.lazySingleton<_i25.LibraryRepository>(() => _i26.LibraryRepositoryImpl(
-          gh<_i24.LibraryRemoteDataSource>(),
-          gh<_i5.NetworkInfo>(),
-        ));
-
-    // Library - Use Cases
-    gh.lazySingleton<_i27.GetSermonsUseCase>(
-        () => _i27.GetSermonsUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i27.GetRecentSermonsUseCase>(
-        () => _i27.GetRecentSermonsUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i28.GetSongsUseCase>(
-        () => _i28.GetSongsUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i29.GetVersesUseCase>(
-        () => _i29.GetVersesUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i29.GetVerseOfWeekUseCase>(
-        () => _i29.GetVerseOfWeekUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i30.ToggleSongFavoriteUseCase>(
-        () => _i30.ToggleSongFavoriteUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i30.ToggleVerseFavoriteUseCase>(
-        () => _i30.ToggleVerseFavoriteUseCase(gh<_i25.LibraryRepository>()));
-    gh.lazySingleton<_i30.ToggleSermonFavoriteUseCase>(
-        () => _i30.ToggleSermonFavoriteUseCase(gh<_i25.LibraryRepository>()));
-
-    // Library - Cubit
-    gh.factory<_i31.LibraryCubit>(() => _i31.LibraryCubit(
-          gh<_i28.GetSongsUseCase>(),
-          gh<_i29.GetVersesUseCase>(),
-          gh<_i27.GetSermonsUseCase>(),
-          gh<_i30.ToggleSongFavoriteUseCase>(),
-          gh<_i30.ToggleVerseFavoriteUseCase>(),
-          gh<_i30.ToggleSermonFavoriteUseCase>(),
-        ));
-
-    // Home - Data Sources
-    gh.lazySingleton<_i32.HomeRemoteDataSource>(
-        () => _i32.HomeRemoteDataSourceImpl(gh<_i6.DioClient>()));
-
-    // Home - Repositories
-    gh.lazySingleton<_i33.HomeRepository>(() => _i34.HomeRepositoryImpl(
-          gh<_i32.HomeRemoteDataSource>(),
-          gh<_i5.NetworkInfo>(),
-        ));
-
-    // Home - Use Cases
-    gh.lazySingleton<_i35.GetUpcomingSeminarsUseCase>(
-        () => _i35.GetUpcomingSeminarsUseCase(gh<_i33.HomeRepository>()));
-    gh.lazySingleton<_i35.GetWeeklyProgramUseCase>(
-        () => _i35.GetWeeklyProgramUseCase(gh<_i33.HomeRepository>()));
-    gh.lazySingleton<_i35.GetMemoryVerseUseCase>(
-        () => _i35.GetMemoryVerseUseCase(gh<_i33.HomeRepository>()));
-    gh.lazySingleton<_i35.GetFeaturedSongsUseCase>(
-        () => _i35.GetFeaturedSongsUseCase(gh<_i33.HomeRepository>()));
-
-    // Home - Cubit
-    gh.factory<_i36.HomeCubit>(() => _i36.HomeCubit(
-          gh<_i35.GetUpcomingSeminarsUseCase>(),
-          gh<_i35.GetWeeklyProgramUseCase>(),
-          gh<_i35.GetMemoryVerseUseCase>(),
-          gh<_i35.GetFeaturedSongsUseCase>(),
-        ));
-
-    // Profile - Data Sources
-    gh.lazySingleton<_i40.ProfileLocalDataSource>(
-        () => _i40.ProfileLocalDataSourceImpl(gh<_i50.SharedPreferences>()));
-    gh.lazySingleton<_i41.ProfileRemoteDataSource>(
-        () => _i41.ProfileRemoteDataSourceImpl(gh<_i6.DioClient>()));
-
-    // Profile - Repositories
-    gh.lazySingleton<_i42.ProfileRepository>(() => _i43.ProfileRepositoryImpl(
-          gh<_i41.ProfileRemoteDataSource>(),
-          gh<_i40.ProfileLocalDataSource>(),
-          gh<_i5.NetworkInfo>(),
-          gh<_i7.TokenStorage>(),
-        ));
-
-    // Profile - Use Cases
-    gh.lazySingleton<_i44.GetFavoriteSongsUseCase>(
-        () => _i44.GetFavoriteSongsUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i44.GetFavoriteVersesUseCase>(
-        () => _i44.GetFavoriteVersesUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i45.GetProfileUseCase>(
-        () => _i45.GetProfileUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i46.GetThemeModeUseCase>(
-        () => _i46.GetThemeModeUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i46.SetThemeModeUseCase>(
-        () => _i46.SetThemeModeUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i46.GetNotificationsEnabledUseCase>(
-        () => _i46.GetNotificationsEnabledUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i46.SetNotificationsEnabledUseCase>(
-        () => _i46.SetNotificationsEnabledUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i46.LogoutUseCase>(
-        () => _i46.LogoutUseCase(gh<_i42.ProfileRepository>()));
-    gh.lazySingleton<_i47.UpdateProfileUseCase>(
-        () => _i47.UpdateProfileUseCase(gh<_i42.ProfileRepository>()));
-
-    // Profile - Cubit
-    gh.factory<_i48.ProfileCubit>(() => _i48.ProfileCubit(
-          gh<_i45.GetProfileUseCase>(),
-          gh<_i44.GetFavoriteSongsUseCase>(),
-          gh<_i44.GetFavoriteVersesUseCase>(),
-          gh<_i46.GetThemeModeUseCase>(),
-          gh<_i46.SetThemeModeUseCase>(),
-          gh<_i46.GetNotificationsEnabledUseCase>(),
-          gh<_i46.SetNotificationsEnabledUseCase>(),
-          gh<_i46.LogoutUseCase>(),
-        ));
-
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => registerModule.sharedPreferences,
+      preResolve: true,
+    );
+    gh.lazySingleton<_i558.FlutterSecureStorage>(
+      () => registerModule.secureStorage,
+    );
+    gh.lazySingleton<_i895.Connectivity>(() => registerModule.connectivity);
+    gh.lazySingleton<_i658.SupabaseService>(() => _i658.SupabaseService());
+    gh.lazySingleton<_i439.ProfileLocalDataSource>(
+      () => _i439.ProfileLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i107.AuthRemoteDataSource>(
+      () => _i857.SupabaseAuthRemoteDataSource(gh<_i658.SupabaseService>()),
+    );
+    gh.lazySingleton<_i964.TokenStorage>(
+      () => _i964.TokenStorage(gh<_i558.FlutterSecureStorage>()),
+    );
+    gh.lazySingleton<_i667.DioClient>(
+      () => _i667.DioClient(gh<_i964.TokenStorage>()),
+    );
+    gh.lazySingleton<_i370.EventsRemoteDataSource>(
+      () => _i370.EventsRemoteDataSourceImpl(gh<_i667.DioClient>()),
+    );
+    gh.lazySingleton<_i676.LibraryRemoteDataSource>(
+      () => _i676.LibraryRemoteDataSourceImpl(gh<_i667.DioClient>()),
+    );
+    gh.lazySingleton<_i847.ProfileRemoteDataSource>(
+      () => _i847.ProfileRemoteDataSourceImpl(gh<_i667.DioClient>()),
+    );
+    gh.lazySingleton<_i362.HomeRemoteDataSource>(
+      () => _i362.HomeRemoteDataSourceImpl(gh<_i667.DioClient>()),
+    );
+    gh.lazySingleton<_i932.NetworkInfo>(
+      () => _i932.NetworkInfoImpl(gh<_i895.Connectivity>()),
+    );
+    gh.lazySingleton<_i810.LibraryRepository>(
+      () => _i912.LibraryRepositoryImpl(
+        gh<_i676.LibraryRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
+    gh.lazySingleton<_i1026.GetSermonsUseCase>(
+      () => _i1026.GetSermonsUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i1026.GetRecentSermonsUseCase>(
+      () => _i1026.GetRecentSermonsUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i990.GetSongsUseCase>(
+      () => _i990.GetSongsUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i73.GetVersesUseCase>(
+      () => _i73.GetVersesUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i73.GetVerseOfWeekUseCase>(
+      () => _i73.GetVerseOfWeekUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i313.ToggleSongFavoriteUseCase>(
+      () => _i313.ToggleSongFavoriteUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i313.ToggleVerseFavoriteUseCase>(
+      () => _i313.ToggleVerseFavoriteUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i313.ToggleSermonFavoriteUseCase>(
+      () => _i313.ToggleSermonFavoriteUseCase(gh<_i810.LibraryRepository>()),
+    );
+    gh.lazySingleton<_i894.ProfileRepository>(
+      () => _i334.ProfileRepositoryImpl(
+        gh<_i847.ProfileRemoteDataSource>(),
+        gh<_i439.ProfileLocalDataSource>(),
+        gh<_i932.NetworkInfo>(),
+        gh<_i964.TokenStorage>(),
+      ),
+    );
+    gh.lazySingleton<_i543.GetFavoriteSongsUseCase>(
+      () => _i543.GetFavoriteSongsUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i543.GetFavoriteVersesUseCase>(
+      () => _i543.GetFavoriteVersesUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i72.GetProfileUseCase>(
+      () => _i72.GetProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i501.GetThemeModeUseCase>(
+      () => _i501.GetThemeModeUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i501.SetThemeModeUseCase>(
+      () => _i501.SetThemeModeUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i501.GetNotificationsEnabledUseCase>(
+      () => _i501.GetNotificationsEnabledUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i501.SetNotificationsEnabledUseCase>(
+      () => _i501.SetNotificationsEnabledUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i501.LogoutUseCase>(
+      () => _i501.LogoutUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i78.UpdateProfileUseCase>(
+      () => _i78.UpdateProfileUseCase(gh<_i894.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i787.AuthRepository>(
+      () => _i153.AuthRepositoryImpl(
+        gh<_i107.AuthRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+        gh<_i658.SupabaseService>(),
+      ),
+    );
+    gh.lazySingleton<_i967.EventsRepository>(
+      () => _i560.EventsRepositoryImpl(
+        gh<_i370.EventsRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
+    gh.factory<_i36.ProfileCubit>(
+      () => _i36.ProfileCubit(
+        gh<_i72.GetProfileUseCase>(),
+        gh<_i543.GetFavoriteSongsUseCase>(),
+        gh<_i543.GetFavoriteVersesUseCase>(),
+        gh<_i501.GetThemeModeUseCase>(),
+        gh<_i501.SetThemeModeUseCase>(),
+        gh<_i501.GetNotificationsEnabledUseCase>(),
+        gh<_i501.SetNotificationsEnabledUseCase>(),
+        gh<_i501.LogoutUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i17.GetCurrentUserUseCase>(
+      () => _i17.GetCurrentUserUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i188.LoginUseCase>(
+      () => _i188.LoginUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i48.LogoutUseCase>(
+      () => _i48.LogoutUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i941.RegisterUseCase>(
+      () => _i941.RegisterUseCase(gh<_i787.AuthRepository>()),
+    );
+    gh.lazySingleton<_i0.HomeRepository>(
+      () => _i76.HomeRepositoryImpl(
+        gh<_i362.HomeRemoteDataSource>(),
+        gh<_i932.NetworkInfo>(),
+      ),
+    );
+    gh.factory<_i196.LibraryCubit>(
+      () => _i196.LibraryCubit(
+        gh<_i990.GetSongsUseCase>(),
+        gh<_i73.GetVersesUseCase>(),
+        gh<_i1026.GetSermonsUseCase>(),
+        gh<_i313.ToggleSongFavoriteUseCase>(),
+        gh<_i313.ToggleVerseFavoriteUseCase>(),
+        gh<_i313.ToggleSermonFavoriteUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i286.GetEventsUseCase>(
+      () => _i286.GetEventsUseCase(gh<_i967.EventsRepository>()),
+    );
+    gh.lazySingleton<_i292.GetUpcomingEventsUseCase>(
+      () => _i292.GetUpcomingEventsUseCase(gh<_i967.EventsRepository>()),
+    );
+    gh.lazySingleton<_i791.RegisterForEventUseCase>(
+      () => _i791.RegisterForEventUseCase(gh<_i967.EventsRepository>()),
+    );
+    gh.factory<_i117.AuthCubit>(
+      () => _i117.AuthCubit(
+        gh<_i188.LoginUseCase>(),
+        gh<_i941.RegisterUseCase>(),
+        gh<_i48.LogoutUseCase>(),
+        gh<_i17.GetCurrentUserUseCase>(),
+        gh<_i787.AuthRepository>(),
+        gh<_i658.SupabaseService>(),
+      ),
+    );
+    gh.lazySingleton<_i453.GetUpcomingSeminarsUseCase>(
+      () => _i453.GetUpcomingSeminarsUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i453.GetWeeklyProgramUseCase>(
+      () => _i453.GetWeeklyProgramUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i453.GetMemoryVerseUseCase>(
+      () => _i453.GetMemoryVerseUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i453.GetFeaturedSongsUseCase>(
+      () => _i453.GetFeaturedSongsUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i453.GetSundaySchedulesUseCase>(
+      () => _i453.GetSundaySchedulesUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.lazySingleton<_i453.GetAnnouncementsUseCase>(
+      () => _i453.GetAnnouncementsUseCase(gh<_i0.HomeRepository>()),
+    );
+    gh.factory<_i496.EventsCubit>(
+      () => _i496.EventsCubit(
+        gh<_i286.GetEventsUseCase>(),
+        gh<_i292.GetUpcomingEventsUseCase>(),
+        gh<_i791.RegisterForEventUseCase>(),
+      ),
+    );
+    gh.factory<_i9.HomeCubit>(
+      () => _i9.HomeCubit(
+        gh<_i453.GetUpcomingSeminarsUseCase>(),
+        gh<_i453.GetWeeklyProgramUseCase>(),
+        gh<_i453.GetMemoryVerseUseCase>(),
+        gh<_i453.GetFeaturedSongsUseCase>(),
+        gh<_i453.GetSundaySchedulesUseCase>(),
+        gh<_i453.GetAnnouncementsUseCase>(),
+      ),
+    );
     return this;
   }
 }
 
-class _$RegisterModule extends _i8.RegisterModule {}
+class _$RegisterModule extends _i464.RegisterModule {}

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 
 /// API constants and endpoint definitions
 abstract final class ApiConstants {
@@ -9,9 +9,17 @@ abstract final class ApiConstants {
     // TODO: Change to your computer's IP for real device testing
     // return 'http://192.168.1.112:5001/api';
 
-    if (Platform.isAndroid) {
+    // Web platform uses localhost
+    if (kIsWeb) {
+      return 'http://localhost:5001/api';
+    }
+
+    // Android emulator uses 10.0.2.2
+    if (defaultTargetPlatform == TargetPlatform.android) {
       return 'http://10.0.2.2:5001/api';
     }
+
+    // iOS and others use localhost
     return 'http://localhost:5001/api';
   }
 
@@ -57,6 +65,15 @@ abstract final class ApiConstants {
 
   // ============ Programs Endpoints ============
   static const String weeklyProgram = '/programs/current-week';
+
+  // ============ Announcements Endpoints ============
+  static const String announcements = '/announcements';
+  static const String activeAnnouncements = '/announcements/active';
+
+  // ============ Sunday Schedule Endpoints ============
+  static const String sundayScheduleCurrent = '/sunday-schedules/current';
+  static const String sundayScheduleNext = '/sunday-schedules/next';
+  static const String sundayScheduleWeekly = '/sunday-schedules/weekly';
 
   // ============ Users Endpoints ============
   static const String userProfile = '/users/profile';

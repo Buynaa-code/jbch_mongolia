@@ -293,7 +293,7 @@ class _ProfileHeader extends StatelessWidget {
                     child: Image.network(
                       imageUrl!,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Text(
+                      errorBuilder: (_, _, _) => Text(
                         name.isNotEmpty ? name[0].toUpperCase() : '?',
                         style: theme.textTheme.headlineMedium?.copyWith(
                           color: theme.colorScheme.onPrimary,

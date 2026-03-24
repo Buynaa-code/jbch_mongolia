@@ -325,7 +325,7 @@ abstract final class AppTheme {
   // Navigation Bar Themes (Material 3)
   static NavigationBarThemeData get _lightNavigationBarTheme {
     return NavigationBarThemeData(
-      height: 80,
+      height: 64,
       elevation: 0,
       backgroundColor: AppColors.surfaceContainerLight,
       surfaceTintColor: Colors.transparent,
@@ -350,7 +350,7 @@ abstract final class AppTheme {
 
   static NavigationBarThemeData get _darkNavigationBarTheme {
     return NavigationBarThemeData(
-      height: 80,
+      height: 64,
       elevation: 0,
       backgroundColor: AppColors.surfaceContainerDark,
       surfaceTintColor: Colors.transparent,

@@ -137,39 +137,45 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
               ),
               // Player content
               Expanded(
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(AppTheme.spacingLarge),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       // Album art
-                      Container(
-                        width: 280,
-                        height: 280,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.primary,
-                              AppColors.primaryLight,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(AppTheme.radiusXLarge),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.3),
-                              blurRadius: 30,
-                              offset: const Offset(0, 15),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final size = constraints.maxWidth * 0.65;
+                          final clampedSize = size.clamp(180.0, 280.0);
+                          return Container(
+                            width: clampedSize,
+                            height: clampedSize,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary,
+                                  AppColors.primaryLight,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(AppTheme.radiusXLarge),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.3),
+                                  blurRadius: 30,
+                                  offset: const Offset(0, 15),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.music_note,
-                          size: 120,
-                          color: theme.colorScheme.onPrimary,
-                        ),
+                            child: Icon(
+                              Icons.music_note,
+                              size: clampedSize * 0.4,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: AppTheme.spacingXLarge),
                       // Song info
@@ -209,7 +215,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(height: AppTheme.spacingLarge),
                       // Progress bar
                       Column(
                         children: [
@@ -319,7 +325,7 @@ class _SongPlayerPageState extends State<SongPlayerPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: AppTheme.spacingLarge),
+                      const SizedBox(height: AppTheme.spacingMedium),
                       // Bottom actions
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

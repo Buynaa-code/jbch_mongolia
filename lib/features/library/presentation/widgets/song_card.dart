@@ -56,19 +56,12 @@ class SongCard extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        _getCategoryColor(song.category),
-                        _getCategoryColor(song.category).withValues(alpha: 0.7),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: _getCategoryColor(song.category),
                     borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                   ),
                   child: Icon(
                     Icons.music_note,
-                    color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
+                    color: Theme.of(context).colorScheme.onPrimary,
                     size: 24,
                   ),
                 ),
@@ -150,9 +143,10 @@ class SongCard extends StatelessWidget {
             // Favorite and play buttons
             IconButton(
               onPressed: onFavoriteToggle,
+              constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
               icon: Icon(
                 song.isFavorite ? Icons.favorite : Icons.favorite_border,
-                size: 20,
+                size: 24,
                 color: song.isFavorite
                     ? AppColors.error
                     : theme.colorScheme.onSurfaceVariant,
@@ -161,13 +155,14 @@ class SongCard extends StatelessWidget {
             IconButton(
               onPressed: song.isPlayable ? onPlayPause : null,
               tooltip: song.isPlayable ? null : 'Аудио файл байхгүй',
+              constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
               icon: Icon(
                 isCurrentSong && isPlaying
                     ? Icons.pause_circle_filled
                     : (song.isPlayable
                         ? Icons.play_circle_filled
                         : Icons.play_disabled),
-                size: 40,
+                size: 44,
                 color: song.isPlayable
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.3),

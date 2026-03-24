@@ -5,7 +5,7 @@ import '../../domain/entities/verse.dart';
 part 'verse_model.g.dart';
 
 /// Verse model with JSON serialization
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class VerseModel extends Verse {
   const VerseModel({
     required super.id,

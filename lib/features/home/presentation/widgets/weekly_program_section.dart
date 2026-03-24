@@ -54,7 +54,7 @@ class WeeklyProgramSection extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 148,
+      height: 165,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMedium),
@@ -182,97 +182,94 @@ class _DayCard extends StatelessWidget {
               ),
             ),
           ],
-          const Spacer(),
+          const SizedBox(height: AppTheme.spacingSmall),
 
-          // Events list
-          if (item.events.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                'Арга хэмжээ байхгүй',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: isToday
-                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.6)
-                      : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
-                  fontSize: 10,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            )
-          else
-            ...item.events.take(2).map(
-                  (event) => Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: AppTheme.spacingSmall,
+          // Events list - use Expanded to prevent overflow
+          Expanded(
+            child: item.events.isEmpty
+                ? Center(
+                    child: Text(
+                      'Арга хэмжээ байхгүй',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: isToday
+                            ? theme.colorScheme.onPrimary.withValues(alpha: 0.6)
+                            : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                        fontSize: 10,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Icon with better visibility
-                        Container(
-                          width: 16,
-                          height: 16,
-                          alignment: Alignment.center,
-                          child: Text(
-                            event.icon,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: isToday ? theme.colorScheme.onPrimary : null,
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...item.events.take(2).map(
+                            (event) => Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppTheme.spacingXSmall,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Icon
+                                  Text(
+                                    event.icon,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isToday ? theme.colorScheme.onPrimary : null,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        // Time
+                                        Text(
+                                          event.time,
+                                          style: theme.textTheme.labelSmall?.copyWith(
+                                            color: isToday
+                                                ? theme.colorScheme.onPrimary.withValues(alpha: 0.85)
+                                                : theme.colorScheme.onSurfaceVariant,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        // Title
+                                        Text(
+                                          event.title,
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            color: isToday
+                                                ? theme.colorScheme.onPrimary
+                                                : theme.colorScheme.onSurface,
+                                            fontSize: 10,
+                                            height: 1.2,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Time
-                              Text(
-                                event.time,
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: isToday
-                                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.85)
-                                      : theme.colorScheme.onSurfaceVariant,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 1),
-                              // Title
-                              Text(
-                                event.title,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: isToday
-                                      ? theme.colorScheme.onPrimary
-                                      : theme.colorScheme.onSurface,
-                                  fontSize: 11,
-                                  height: 1.3,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                      if (item.events.length > 2)
+                        Text(
+                          '+${item.events.length - 2} бусад',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: isToday
+                                ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
+                                : theme.colorScheme.primary,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ],
-                    ),
+                    ],
                   ),
-                ),
-          if (item.events.length > 2)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                '+${item.events.length - 2} бусад',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: isToday
-                      ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
-                      : theme.colorScheme.primary,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+          ),
         ],
       ),
     );

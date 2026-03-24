@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/network/api_constants.dart';
@@ -25,7 +26,9 @@ abstract class AuthRemoteDataSource {
   Future<AuthTokensModel> refreshToken();
 }
 
-@LazySingleton(as: AuthRemoteDataSource)
+/// Legacy Dio-based implementation (kept for reference)
+/// Now using SupabaseAuthRemoteDataSource instead
+// @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final DioClient _dioClient;
   final TokenStorage _tokenStorage;
@@ -45,11 +48,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final tokens = AuthTokensModel.fromJson(data);
 
     // Save tokens to secure storage
+    debugPrint('AUTH LOGIN: Saving tokens - accessToken length: ${tokens.accessToken.length}');
     await _tokenStorage.saveTokens(
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
       expiry: tokens.expiresAt,
     );
+
+    // Verify tokens were saved
+    final savedToken = await _tokenStorage.getAccessToken();
+    debugPrint('AUTH LOGIN: Token saved successfully: ${savedToken != null && savedToken.isNotEmpty}');
 
     return (user, tokens);
   }

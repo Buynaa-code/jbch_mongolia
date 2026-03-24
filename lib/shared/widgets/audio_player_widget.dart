@@ -90,7 +90,7 @@ class AudioPlayerWidget extends StatelessWidget {
                           ),
                         );
                       },
-                      errorBuilder: (_, __, ___) => Icon(
+                      errorBuilder: (_, _, _) => Icon(
                         Icons.music_note,
                         color: theme.colorScheme.primary,
                       ),
@@ -181,7 +181,7 @@ class AudioPlayerWidget extends StatelessWidget {
                         ),
                       );
                     },
-                    errorBuilder: (_, __, ___) => Icon(
+                    errorBuilder: (_, _, _) => Icon(
                       Icons.music_note,
                       size: 80,
                       color: theme.colorScheme.primary,

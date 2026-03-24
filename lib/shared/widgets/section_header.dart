@@ -78,7 +78,7 @@ class SectionHeader extends StatelessWidget {
                       const SizedBox(width: AppTheme.spacingXSmall),
                     Icon(
                       actionIcon,
-                      size: 16,
+                      size: 20,
                       color: theme.colorScheme.primary,
                     ),
                   ],

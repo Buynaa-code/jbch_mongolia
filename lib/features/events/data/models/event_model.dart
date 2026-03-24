@@ -5,7 +5,7 @@ import '../../domain/entities/event.dart';
 part 'event_model.g.dart';
 
 /// Event model with JSON serialization
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class EventModel extends Event {
   const EventModel({
     required super.id,

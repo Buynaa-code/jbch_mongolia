@@ -1,9 +1,113 @@
 import '../../../shared/models/event_model.dart';
 import '../../../shared/models/song_model.dart';
 import '../../../shared/models/verse_model.dart';
+import '../domain/entities/announcement.dart';
+import '../domain/entities/sunday_schedule.dart';
+import 'models/announcement_model.dart';
 
 /// Mock data for the Home feature
 abstract final class MockHomeData {
+  /// Active announcements for carousel
+  static List<AnnouncementModel> get announcements => [
+        AnnouncementModel(
+          id: 'ann1',
+          title: 'Шинэ жилийн тусгай цуглаан',
+          description:
+              'Бид хамтдаа шинэ жилийн баярыг тэмдэглэх болно. Бүх гэр бүлүүдийг урьж байна!',
+          priority: AnnouncementPriority.important,
+          actionLabel: 'Дэлгэрэнгүй',
+          actionUrl: '/events/new-year',
+          createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+          expiresAt: DateTime.now().add(const Duration(days: 7)),
+        ),
+        AnnouncementModel(
+          id: 'ann2',
+          title: 'Библийн сургалт эхэлж байна',
+          description:
+              'Шинэ гэрээний номуудыг судлах сургалт 2 дахь сарын 1-нээс эхэлнэ.',
+          priority: AnnouncementPriority.normal,
+          actionLabel: 'Бүртгүүлэх',
+          actionUrl: '/events/bible-study',
+          createdAt: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+        AnnouncementModel(
+          id: 'ann3',
+          title: 'Яаралтай залбирлын хүсэлт',
+          description:
+              'Ахан дүүсийн эрүүл мэнд болон гэр бүлийн төлөө залбирч өгнө үү.',
+          priority: AnnouncementPriority.urgent,
+          createdAt: DateTime.now().subtract(const Duration(hours: 5)),
+        ),
+      ];
+
+  /// Ням гаргийн үйлчлэлийн хуваарь - Энэ долоо хоног
+  static SundaySchedule get currentSundaySchedule {
+    // Энэ ням гаргийг олох
+    final now = DateTime.now();
+    final daysUntilSunday = DateTime.sunday - now.weekday;
+    final thisSunday = now.add(Duration(days: daysUntilSunday >= 0 ? daysUntilSunday : 7 + daysUntilSunday));
+
+    return SundaySchedule(
+      id: '1',
+      date: thisSunday,
+      sermon: const SermonInfo(
+        speaker: 'Жан Жихүн',
+        title: 'пастор',
+      ),
+      branches: const [
+        BranchInfo(name: 'УБ Баруун', speaker: 'Лутжаргал пастор'),
+        BranchInfo(name: 'Сэлэнгэ', speaker: 'Булган-Эрдэнэ номлогч'),
+      ],
+      gathering: const GatheringInfo(
+        type: GatheringType.section,
+        name: 'Хэсгийн нөхөрлөл',
+      ),
+      team: const TeamInfo(
+        name: 'Антиох 6',
+        leader: 'Хуан Жинүг пастор',
+      ),
+      sundaySchool: const SundaySchoolInfo(
+        preparation: TeacherInfo(name: 'Хүрэлбаатар', role: 'а'),
+        junior: TeacherInfo(name: 'Буянтогтох', role: 'п'),
+        senior: TeacherInfo(name: 'Дамдиндорж', role: 'а'),
+      ),
+    );
+  }
+
+  /// Ням гаргийн үйлчлэлийн хуваарь - Дараа долоо хоног
+  static SundaySchedule get nextSundaySchedule {
+    final now = DateTime.now();
+    final daysUntilSunday = DateTime.sunday - now.weekday;
+    final nextSunday = now.add(Duration(days: (daysUntilSunday >= 0 ? daysUntilSunday : 7 + daysUntilSunday) + 7));
+
+    return SundaySchedule(
+      id: '2',
+      date: nextSunday,
+      sermon: const SermonInfo(
+        speaker: 'Юү Хэүн',
+        title: 'пастор',
+      ),
+      branches: const [
+        BranchInfo(name: 'УБ Баруун', speaker: 'Лутжаргал пастор'),
+        BranchInfo(name: 'Сэлэнгэ', speaker: 'Булган-Эрдэнэ номлогч'),
+      ],
+      gathering: const GatheringInfo(
+        type: GatheringType.regional,
+        name: 'Бүсийн нөхөрлөл',
+      ),
+      team: const TeamInfo(
+        name: 'Антиох 7',
+        leader: 'Булган-Эрдэнэ номлогч',
+      ),
+      sundaySchool: const SundaySchoolInfo(
+        preparation: TeacherInfo(name: 'Им Синбинь', role: 'а'),
+        junior: TeacherInfo(name: 'Булган-Эрдэнэ', role: 'н'),
+        senior: TeacherInfo(name: 'Буянтогтох', role: 'п'),
+      ),
+    );
+  }
+
+
   /// Upcoming seminars list for carousel
   static List<EventModel> get seminars => [
         EventModel(

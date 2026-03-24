@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -25,6 +26,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._getProfile,
     this._getFavoriteSongs,
     this._getFavoriteVerses,
+
+
+
+
+
+    
     this._getThemeMode,
     this._setThemeMode,
     this._getNotificationsEnabled,
